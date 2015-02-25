@@ -1,1 +1,6 @@
-exportPattern("^[[:alpha:]]+")
+
+export(GazePath)
+
+S3method(print, GazePath)
+S3method(summary, GazePath)
+
