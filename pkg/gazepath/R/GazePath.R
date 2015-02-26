@@ -1,5 +1,5 @@
 GazePath <-
-function(data, x1, y1, x2 = NULL, y2 = NULL, distance, trial, height_px, height_mm, width_px, width_mm, outputmethod = 'sample', res_x = 1280, res_y = 1024, samplerate = 500, method = 'Mould', thres_vel = 35, thres_dur = 100, min_dist = 250){
+function(data, x1, y1, x2 = NULL, y2 = NULL, distance, trial, height_px, height_mm, width_px, width_mm, res_x = 1280, res_y = 1024, samplerate = 500, method = 'Mould', thres_vel = 35, thres_dur = 100, min_dist = 250){
   ## Check if input is a data frame
   if(!is.data.frame(data)) {
     stop('please insert a data frame and define the column numbers of the variables')
@@ -169,13 +169,7 @@ function(data, x1, y1, x2 = NULL, y2 = NULL, distance, trial, height_px, height_
       final[[i]] <- fixationANDsaccade(s[[i]], thres_vel, thres_dur, Hz = samplerate)
     }
   }
-  
-  ## Return sample classification or simple classification
-  if(outputmethod == 'simple'){
-    for(i in 1:length(unique(data[,trial]))){
-      final[[i]] <- simplify(final[[i]], X[[i]], Y[[i]], Hz)
-    }
-  }
-  
-  return(list(final, X, Y, thres_vel, thres_dur, s))
+  output <- list(final, X, Y, thres_vel, thres_dur, s, method)
+  class(output) <- 'gazepath'
+  return(output)
 }
