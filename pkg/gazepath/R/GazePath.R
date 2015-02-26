@@ -1,5 +1,5 @@
 GazePath <-
-function(data, x1, y1, x2 = NULL, y2 = NULL, distance, trial, height_px, height_mm, width_px, width_mm, res_x = 1280, res_y = 1024, samplerate = 500, method = 'Mould', thres_vel = 35, thres_dur = 100, min_dist = 250){
+function(data, x1, y1, x2 = NULL, y2 = NULL, distance, trial, height_px, height_mm, width_px, width_mm, res_x = 1280, res_y = 1024, samplerate = 500, method = 'Mould', posthoc = FALSE, thres_vel = 35, thres_dur = 100, min_dist = 250){
   ## Check if input is a data frame
   if(!is.data.frame(data)) {
     stop('please insert a data frame and define the column numbers of the variables')
@@ -151,11 +151,21 @@ function(data, x1, y1, x2 = NULL, y2 = NULL, distance, trial, height_px, height_
     }
   }
   
-  ## Determine robustness and precision estimates
+  ## Post-hoc Check
+  if(posthoc == TRUE){
+    for(i in 1:length(X)) {
+      PH <- posthocCheck(final[[i]], X[[i]], Y[[i]])
+      final[[i]] <- PH[[1]]
+      X[[i]] <- PH[[2]]
+      Y[[i]] <- PH[[3]]
+    }
+  }
+  
+  ## Determine robustness and precision
   Robustness <- sapply(1:length(X), function(i) robust(X[[i]], Hz))
-  Precision <- sapply(1:length(X), function(i) precision(simplify(final[[i]], X[[i]], Y[[i]], Hz), D[[i]], width_px[i], width_mm[i]))
+  Precision <- sapply(1:length(X), function(i) precision(simplify(final[[i]], X[[i]], Y[[i]], Hz, D[[i]], width_px[i], width_mm[i])))
     
-  output <- list(final, X, Y, method, Robustness, Precision, thres_vel, thres_dur, s)
+  output <- list(final, X, Y, method, Robustness, Precision, thres_vel, thres_dur, s, samplerate, D, height_px, height_mm, width_px, width_mm)
   class(output) <- 'gazepath'
   return(output)
 }
