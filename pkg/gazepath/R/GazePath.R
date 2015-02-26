@@ -17,6 +17,7 @@ function(data, x1, y1, x2 = NULL, y2 = NULL, distance, trial, height_px, height_
   }
   
   final <- 'Please insert a correct method'
+  s <- NA
   
   if(method == 'Eyelink'){
     final <- list()
@@ -35,26 +36,6 @@ function(data, x1, y1, x2 = NULL, y2 = NULL, distance, trial, height_px, height_
       X[[i]] <- Boundary(X[[i]], (res_x - width_px[i]) / 2, res_x - (res_x - width_px[i]) / 2)
       Y[[i]] <- Boundary(Y[[i]], (res_y - height_px[i]) / 2, res_y - (res_y - height_px[i]) / 2)
       final[[i]] <- Tobii(cbind(X[[i]], Y[[i]]), D[[i]], thres_dur = 100, Hz = samplerate)
-    } 
-  }
-  
-  if(method == 'Fixed'){
-    s <- list()
-    for(i in 1:length(unique(data[,trial]))){
-      ## Boundary check
-      X[[i]] <- Boundary(X[[i]], (res_x - width_px[i]) / 2, res_x - (res_x - width_px[i]) / 2)
-      Y[[i]] <- Boundary(Y[[i]], (res_y - height_px[i]) / 2, res_y - (res_y - height_px[i]) / 2)
-      ## Calculate speed
-      s[[i]] <- Speed_Deg(X[[i]], Y[[i]], D[[i]], height_mm[i], width_mm[i], height_px[i], width_px[i], samplerate)
-      ## Omit velocities over 1000 deg/s
-      s[[i]] <- ifelse(s[[i]] > 1000, NA, s[[i]])
-    }
-    
-    fix <- possiblefix(unlist(s), thres_vel)
-    
-    final <- list()
-    for(i in 1:length(unique(data[,trial]))){
-      final[[i]] <- fixationANDsaccade(s[[i]], thres_vel, thres_dur, Hz = samplerate)
     } 
   }
   
@@ -169,7 +150,12 @@ function(data, x1, y1, x2 = NULL, y2 = NULL, distance, trial, height_px, height_
       final[[i]] <- fixationANDsaccade(s[[i]], thres_vel, thres_dur, Hz = samplerate)
     }
   }
-  output <- list(final, X, Y, thres_vel, thres_dur, s, method)
+  
+  ## Determine robustness and precision estimates
+  Robustness <- sapply(1:length(X), function(i) robust(X[[i]], Hz))
+  Precision <- sapply(1:length(X), function(i) precision(simplify(final[[i]], X[[i]], Y[[i]], Hz), D[[i]], width_px[i], width_mm[i]))
+    
+  output <- list(final, X, Y, method, Robustness, Precision, thres_vel, thres_dur, s)
   class(output) <- 'gazepath'
   return(output)
 }
