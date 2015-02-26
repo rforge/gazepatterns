@@ -177,5 +177,5 @@ function(data, x1, y1, x2 = NULL, y2 = NULL, distance, trial, height_px, height_
     }
   }
   
-  return(list(final, X, Y, thres_vel, thres_dur, fix))
+  return(list(final, X, Y, thres_vel, thres_dur, s))
 }
