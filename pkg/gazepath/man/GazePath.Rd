@@ -15,7 +15,7 @@ method = "Mould", posthoc = FALSE, thres_vel = 35,
 thres_dur = 100, min_dist = 250)
 
 \method{summary}{gazepath}(object, ...)
-\method{plot}{gazepath}(x, ...)
+\method{plot}{gazepath}(x, ..., i = 1)
 
 }
 
@@ -81,6 +81,18 @@ The desired duration threshold, will only be used for method 'Eyelink', 'MouldDu
   \item{min_dist}{
 The minimal distance from the screen in mm, samples below this distance are considered unreliable and are omitted from further analysis.
 }
+  \item{object}{
+  Object of class 'gazepath' can be used in the plot, summary and print function
+  }
+  \item{x}{
+  Object of class 'gazepath' can be used in the plot, summary and print function
+  }
+  \item{i}{
+  Argument of the plot function, refering to the trial to be plotted
+  }
+  \item{...}{
+  Not used currently
+  }
 }
 \details{
 no details
