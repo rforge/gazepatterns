@@ -7,4 +7,5 @@ Author: Daan van Renswoude
 Maintainer: Who to complain to <yourfault@somewhere.net>
 Description: More about what it does (maybe more than one line)
 License: GLP-2
+LazyLoad: true
 Packaged: 2015-02-25 12:44:01 UTC; daan

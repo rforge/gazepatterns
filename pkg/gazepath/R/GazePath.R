@@ -160,12 +160,17 @@ function(data, x1, y1, x2 = NULL, y2 = NULL, distance, trial, height_px, height_
       Y[[i]] <- PH[[3]]
     }
   }
+  ## Simplify the raw classification
+  sim <- list()
+  for(i in 1:length(X)){
+    sim[[i]] <- simplify(final[[i]], X[[i]], Y[[i]], samplerate, D[[i]], width_px[i], width_mm[i])
+  }
   
   ## Determine robustness and precision
-  Robustness <- sapply(1:length(X), function(i) robust(X[[i]], Hz))
-  Precision <- sapply(1:length(X), function(i) precision(simplify(final[[i]], X[[i]], Y[[i]], Hz, D[[i]], width_px[i], width_mm[i])))
+  Robustness <- sapply(1:length(X), function(i) robust(X[[i]], samplerate))
+  Precision <- sapply(1:length(X), function(i) precision(sim[[i]]))
     
-  output <- list(final, X, Y, method, Robustness, Precision, thres_vel, thres_dur, s, samplerate, D, height_px, height_mm, width_px, width_mm)
+  output <- list(final, X, Y, method, Robustness, Precision, thres_vel, thres_dur, s, samplerate, D, height_px, height_mm, width_px, width_mm, sim)
   class(output) <- 'gazepath'
   return(output)
 }
