@@ -1,16 +1,22 @@
-\name{GazePath}
-\alias{GazePath}
+\name{gazepath}
+\alias{gazepath}
+\alias{summary.gazepath}
+\alias{plot.gazepath}
 \title{
 Classify fixations and saccades}
 \description{
 This R-package transforms raw eye-tracking data into fixations and saccades
 }
 \usage{
-GazePath(data, x1, y1, x2 = NULL, y2 = NULL, distance, trial,
+gazepath(data, x1, y1, x2 = NULL, y2 = NULL, distance, trial,
 height_px, height_mm, width_px, width_mm, 
 res_x = 1280, res_y = 1024, samplerate = 500, 
 method = "Mould", posthoc = FALSE, thres_vel = 35, 
 thres_dur = 100, min_dist = 250)
+
+\method{summary}{gazepath}(object, ...)
+\method{plot}{gazepath}(x, ...)
+
 }
 
 \arguments{
@@ -93,7 +99,7 @@ Daan van Renswoude
 #### Example
 data(screen)
 data(eye_data)
-example <- GazePath(eye_data, x1 = 10, y1 = 11, distance = 14, trial = 3, 
+example <- gazepath(eye_data, x1 = 10, y1 = 11, distance = 14, trial = 3, 
 height_px = screen[,1], height_mm = screen[,2], width_px = screen[,3], width_mm = screen[,4], 
 method = 'Mould', samplerate = 500)
 

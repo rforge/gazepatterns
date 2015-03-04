@@ -1,4 +1,4 @@
-GazePath <-
+gazepath <-
 function(data, x1, y1, x2 = NULL, y2 = NULL, distance, trial, height_px, height_mm, width_px, width_mm, res_x = 1280, res_y = 1024, samplerate = 500, method = 'Mould', posthoc = FALSE, thres_vel = 35, thres_dur = 100, min_dist = 250){
   ## Check if input is a data frame
   if(!is.data.frame(data)) {
