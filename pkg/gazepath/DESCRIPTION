@@ -1,0 +1,9 @@
+Package: gazepath
+Type: Package
+Title: Gazepath
+Version: 1.0
+Date: 2015-03-03
+Author: Daan van Renswoude
+Maintainer: Daan van Renswoude <D.R.vanRenswoude@uva.nl>
+Description: Classify fixations and saccades from raw eye-tracking data
+License: GPL-2
