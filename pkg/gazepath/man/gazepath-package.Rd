@@ -1,6 +1,5 @@
 \name{gazepath-package}
-\alias{gazepath}
-\alias{gazepath}
+\alias{gazepat-package}
 \docType{package}
 \title{
 GazePath
