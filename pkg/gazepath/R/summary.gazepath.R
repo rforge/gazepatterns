@@ -7,13 +7,15 @@ function(object, ..., complete_only = FALSE){
     if(l != 0){
       if(complete_only == TRUE){
         index <- sort(c(complete(sim, 'f'), complete(sim, 's')))
-        output <- rbind(output, cbind(sim[index, c(2, 9:11)], 1:l, i))
+        if(length(index) != 0){
+          output <- rbind(output, cbind(sim[index, c(1:2, 9:11)], 1:length(index), i))
+        } 
       } else {
-        output <- rbind(output, cbind(sim[sim[,1] == 'f', c(2, 9:11)], 1:l, i))
+        output <- rbind(output, cbind(sim[sim[,1] == 'f', c(1:2, 9:11)], 1:l, i))
       }
     }
   }
-  names(output)[c(1, 5:6)] <- c('duration', 'order', 'trial')
+  names(output)[c(1:2, 6:7)] <- c('Value', 'duration', 'order', 'trial')
   row.names(output) <- 1:dim(output)[1]
   return(output)
 }
