@@ -14,7 +14,7 @@ res_x = 1280, res_y = 1024, samplerate = 500,
 method = "Mould", posthoc = FALSE, thres_vel = 35, 
 thres_dur = 100, min_dist = 250)
 
-\method{summary}{gazepath}(object, ...)
+\method{summary}{gazepath}(object, ..., complete_only = FALSE)
 \method{plot}{gazepath}(x, ..., i = 1)
 
 }
@@ -90,6 +90,9 @@ The minimal distance from the screen in mm, samples below this distance are cons
   \item{i}{
   Argument of the plot function, refering to the trial to be plotted
   }
+  \item{complete_only}{
+  Argument (TRUE/FALSE) to indicate whether only fixations that have incoming out outgoing saccades and saccades that are between two fixations should be selected
+  }
   \item{...}{
   Not used currently
   }
@@ -120,7 +123,7 @@ i <- 1
 plot(example, i = i)
 
 ## The estimated fixations, orderded per trial
-summary(example)
+summary(example, complete_only = TRUE)
 }
 \keyword{ fixations }
 \keyword{ saccades }
