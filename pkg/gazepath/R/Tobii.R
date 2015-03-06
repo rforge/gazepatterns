@@ -35,7 +35,7 @@ function(data, distance, offset = .9, thres_dur = 100, Hz){
         classify <- c(classify, rep('u', rle$lengths[i]))
       }
       if(rle$values[i] == 'u'){
-        classify <- c(classify, rep('u', rle$lengths[i]))
+        classify <- c(classify, rep('s', rle$lengths[i]))
       }
     }
   }
