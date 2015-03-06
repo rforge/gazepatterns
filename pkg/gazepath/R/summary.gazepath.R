@@ -1,11 +1,16 @@
 summary.gazepath <-
-function(object, ...){
+function(object, ..., complete_only = FALSE){
   output <- numeric()
   for(i in 1:length(object[[16]])){
     sim <- object[[16]][[i]]
     l <- length(which(sim[,1] == 'f'))
     if(l != 0){
-      output <- rbind(output, cbind(sim[sim[,1] == 'f', c(2, 9:11)], 1:l, i))
+      if(complete_only == TRUE){
+        index <- sort(c(complete(sim, 'f'), complete(sim, 's')))
+        output <- rbind(output, cbind(sim[index, c(2, 9:11)], 1:l, i))
+      } else {
+        output <- rbind(output, cbind(sim[sim[,1] == 'f', c(2, 9:11)], 1:l, i))
+      }
     }
   }
   names(output)[c(1, 5:6)] <- c('duration', 'order', 'trial')
