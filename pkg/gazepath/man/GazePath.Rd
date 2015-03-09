@@ -2,6 +2,7 @@
 \alias{gazepath}
 \alias{summary.gazepath}
 \alias{plot.gazepath}
+\alias{print.gazepath}
 \title{
 Classify fixations and saccades}
 \description{
@@ -16,6 +17,7 @@ thres_dur = 100, min_dist = 250)
 
 \method{summary}{gazepath}(object, ..., complete_only = FALSE)
 \method{plot}{gazepath}(x, ..., i = 1)
+\method{print}{gazepath}(x, ...)
 
 }
 
