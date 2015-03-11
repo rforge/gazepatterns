@@ -103,10 +103,43 @@ The minimal distance from the screen in mm, samples below this distance are cons
 no details
 }
 \value{
-GazePath returns a list of 16 items, plot() and summary() can be used to verify the procedure and obtain the fixations
+gazepath returns a list of 16 itemsplot() and summary() can be used to verify the procedure and obtain the fixations
+
+\item{1. Classifications}{List of length number of trials with a vector indicating whether a sample is classified as fixation 'f', saccade 's', unknown 'u' or NA}
+\item{2. x-coordinates}{List of length number of trials with vectors of the x-coordinates of each trial}
+
+\item{3. y-coordinates}{List of length number of trials with vectors of the y-coordinates of each trial}
+
+\item{4. Method}{single value indicating what method was used to classify fixations and saccades}
+
+\item{5. Robustness}{List of length number of trials with vectors containing the mean durations of usable data segments per trial. Higher values indicate better data quality}
+
+\item{6. Presicion}{List of length number of trials with vectors containing the mean variances in point of gaze in degrees of visual angle per trial. Higher values indicate poorer data quality}
+
+\item{7. Velocity thresholds}{List of length number of trials containing the velocity thresholds}
+
+\item{8. Duration threshold}{The duration thresholds}
+
+\item{9. Speed}{List of length number of trials with vectors containing the speed at each sample}
+
+\item{10. Samplerate}{The samplerate}
+
+\item{11. Head target distance}{List of length number of trials with vectors containing the distance to the screen in mm for each sample}
+
+\item{12. Height in pixels}{Vector of length number of trials with the stimuli heights in pixels}
+
+\item{13. Height in mm}{Vector of length number of trials with the stimuli heights in mm}
+
+\item{14. Width in pixels}{Vector of length number of trials with the stimuli widths in pixels}
+
+\item{15. Widtht in mm}{Vector of length number of trials with the stimuli widths in mm}
+
+\item{16. Fixations and saccades per trial}{List of length number of trials with dataframes containing the fixations and saccades, see also summary()}
+
+
 }
 \references{
-Mould et al. (2012)
+Mould, M. S., Foster, D. H., Amano, K., & Oakley, J. P. (2012). A simple nonparametric method for classifying eye fixations. Vision research, 57, 18-25.
 }
 \author{
 Daan van Renswoude
@@ -116,7 +149,7 @@ Daan van Renswoude
 #### Example
 data(screen)
 data(eye_data)
-example <- gazepath(eye_data, x1 = 10, y1 = 11, distance = 14, trial = 3, 
+example <- gazepath(eye_data, x1 = 1, y1 = 2, distance = 4, trial = 3, 
 height_px = screen[,1], height_mm = screen[,2], width_px = screen[,3], width_mm = screen[,4], 
 method = 'Mould', samplerate = 500)
 
@@ -125,7 +158,7 @@ i <- 1
 plot(example, i = i)
 
 ## The estimated fixations, orderded per trial
-summary(example, complete_only = TRUE)
+summary(example, complete_only = FALSE)
 }
 \keyword{ fixations }
 \keyword{ saccades }
