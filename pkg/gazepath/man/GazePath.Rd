@@ -4,9 +4,10 @@
 \alias{plot.gazepath}
 \alias{print.gazepath}
 \title{
-Classify fixations and saccades}
+Function to transform raw eye-tracking data into fixations and saccades
+}
 \description{
-This R-package transforms raw eye-tracking data into fixations and saccades
+This function transforms raw eye-tracking data into fixations and saccades using a non-parametric speed-based approach to do this on a trial basis. The method is especially useful when there are large differences in data quality, as lower data quality results in more conservative thresholds.
 }
 \usage{
 gazepath(data, x1, y1, x2 = NULL, y2 = NULL, distance, trial,
@@ -103,7 +104,7 @@ The minimal distance from the screen in mm, samples below this distance are cons
 no details
 }
 \value{
-gazepath returns a list of 16 itemsplot() and summary() can be used to verify the procedure and obtain the fixations
+gazepath returns a list of 16 items. plot() and summary() can be used to verify the procedure and obtain the fixations.
 
 \item{1. Classifications}{List of length number of trials with a vector indicating whether a sample is classified as fixation 'f', saccade 's', unknown 'u' or NA}
 \item{2. x-coordinates}{List of length number of trials with vectors of the x-coordinates of each trial}
