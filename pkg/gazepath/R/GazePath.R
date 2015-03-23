@@ -16,6 +16,12 @@ function(data, x1, y1, x2 = NULL, y2 = NULL, distance, trial, height_px, height_
     Y <- by(data[,y1], data[,trial], data.frame)
   }
   
+  ## Convert single heigths and widths into vectors
+  if(length(height_px) == 1) height_px <- rep(height_px, length(unique(data[,trial])))
+  if(length(height_mm) == 1) height_mm <- rep(height_mm, length(unique(data[,trial])))
+  if(length(width_px) == 1) width_px <- rep(width_px, length(unique(data[,trial])))
+  if(length(width_mm) == 1) width_mm <- rep(width_mm, length(unique(data[,trial])))
+  
   final <- 'Please insert a correct method'
   s <- NA
   

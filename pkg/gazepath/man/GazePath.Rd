@@ -7,7 +7,7 @@
 Function to transform raw eye-tracking data into fixations and saccades
 }
 \description{
-This function transforms raw eye-tracking data into fixations and saccades using a non-parametric speed-based approach to do this on a trial basis. The method is especially useful when there are large differences in data quality, as lower data quality results in more conservative thresholds.
+This function transforms raw eye-tracking data into fixations and saccades using a non-parametric speed-based approach to do this on a trial basis. The method is especially useful when there are large differences in data quality between or within participants. Lower data quality results in more conservative thresholds, thereby controlling for noise levels.
 }
 \usage{
 gazepath(data, x1, y1, x2 = NULL, y2 = NULL, distance, trial,
@@ -45,16 +45,16 @@ The column of the dataframe containing the distance in mm
 The column of the dataframe containing the trial or stimuli index
 }
   \item{height_px}{
-The height of the stimuli in pixels, must a be vector of length number of trials
+The height of the stimuli in pixels, can be a single value or a vector of length number of trials when stimuli differ in size per trial
 }
   \item{height_mm}{
-The height of the stimuli in mm, must a be vector of length number of trials
+The height of the stimuli in mm, can be a single value or a vector of length number of trials when stimuli differ in size per trial
 }
   \item{width_px}{
-The width of the stimuli in pixels, must a be vector of length number of trials
+The width of the stimuli in pixels, can be a single value or a vector of length number of trials when stimuli differ in size per trial
 }
   \item{width_mm}{
-The height of the stimuli in pixels, must a be vector of length number of trials
+The height of the stimuli in pixels, can be a single value or a vector of length number of trials when stimuli differ in size per trial trials
 }
   \item{res_x}{
 The horizontal resolution of the monitor in pixels
@@ -67,10 +67,18 @@ The samplerate, e.g., 60 for a 60 Hz scanner, 500 for a 500 Hz scanner
 }
   \item{method}{
 Must be one of the following methods: Mould, Mould.all, MouldDur, Mould.fix, Tobii, Eyelink.
-Mould estimates velocity threshold per trial and duration thresholds per person
+
+Mould estimates velocity threshold per trial and duration thresholds per person (recommended for high, > 250 Hz, samplerate and high quality data)
+
 Mould.all estimates velocity and duration thresholds per person
-MouldDur estimates velocity threshold per trial and uses the duration thresholds specified under 'thres_dur'
+
+MouldDur estimates velocity threshold per trial and uses the duration thresholds specified under 'thres_dur' (recommended for low, < 250 Hz, samplerate data and data of low quality)
+
 Mould.fix estimates velocity thresholds per person and uses the duration thresholds specified under 'thres_dur'
+
+Tobii derives fixations and saccades based on the algorithm described in the ClearView 2.7 manual
+
+Eyelink classifies saccades as sequences of samples (> 4ms) that have a velocity over 35 deg/s, acceleration over 8000 deg/s^2 and defliction over 0.1 deg of visual angle. Fixations are the sequences of samples that are not saccades and pass the duration threshold of 100 ms
 }
   \item{posthoc}{
 TRUE or FALSE (default). When TRUE successive fixations close in space are merged.
