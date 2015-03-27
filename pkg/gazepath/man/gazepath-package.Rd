@@ -2,7 +2,7 @@
 \alias{gazepat-package}
 \docType{package}
 \title{
-R-package to transform raw eye-tracking data into fixations and saccades
+R-Package to Transform Raw Eye-Tracking Data into Fixations and Saccades
 }
 \description{
 Eye-tracking data must be transformed into fixations and saccades before it can be analyzed. This package provides a non-parametric speed-based approach to do this on a trial basis. The method is especially useful when there are large differences in data quality, as the thresholds are adjusted accordingly. The same pre-processing procedure can be applied to all participants, while accounting for individual differences in data quality.

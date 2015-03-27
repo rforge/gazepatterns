@@ -1,9 +1,9 @@
 \name{screen}
 \docType{data}
 \alias{screen}
-\title{screen dimensions}
+\title{Screen Dimensions}
 \description{
-screen and stimuli dimensions in pixels and mm, belonging to the dataset 'eye_data'
+Screen and stimuli dimensions in pixels and mm, belonging to the dataset 'Eye_Data'.
 }
 \usage{screen}
 \format{A dataframe with 4 variables (the height and width of stimuli in pixels and mm)}

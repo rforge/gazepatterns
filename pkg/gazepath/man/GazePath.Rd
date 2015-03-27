@@ -4,7 +4,7 @@
 \alias{plot.gazepath}
 \alias{print.gazepath}
 \title{
-Function to transform raw eye-tracking data into fixations and saccades
+Function to Transform Raw Eye-Tracking Data into Fixations and Saccades
 }
 \description{
 This function transforms raw eye-tracking data into fixations and saccades using a non-parametric speed-based approach to do this on a trial basis. The method is especially useful when there are large differences in data quality between or within participants. Lower data quality results in more conservative thresholds, thereby controlling for noise levels.
