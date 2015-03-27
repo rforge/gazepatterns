@@ -160,7 +160,7 @@ data(screen)
 data(eye_data)
 example <- gazepath(eye_data, x1 = 1, y1 = 2, distance = 4, trial = 3, 
 height_px = screen[,1], height_mm = screen[,2], width_px = screen[,3], width_mm = screen[,4], 
-method = 'Mould', samplerate = 500)
+method = 'MouldDur', samplerate = 500)
 
 ## Use different i's to check the estimated fixations per trial
 i <- 1
