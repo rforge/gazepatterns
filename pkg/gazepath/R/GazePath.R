@@ -174,8 +174,10 @@ function(data, x1, y1, x2 = NULL, y2 = NULL, distance, trial, height_px, height_
   
   ## Determine robustness and precision
   Robustness <- sapply(1:length(X), function(i) robust(X[[i]], samplerate))
-  Precision <- sapply(1:length(X), function(i) precision(sim[[i]]))
-    
+  Pre_x <- sapply(1:length(X), function(i) precision(X[[i]], samplerate))
+  Pre_y <- sapply(1:length(X), function(i) precision(Y[[i]], samplerate))
+  Precision <- (Pre_x + Pre_y) / 2
+  
   output <- list(final, X, Y, method, Robustness, Precision, thres_vel, thres_dur, s, samplerate, D, height_px, height_mm, width_px, width_mm, sim)
   class(output) <- 'gazepath'
   return(output)
