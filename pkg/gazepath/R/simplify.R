@@ -22,7 +22,7 @@ function(classification, x, y, Hz, D, width_px, width_mm){
       
       simple <- data.frame(class$values, class$lengths * (1000/Hz), 
                            c(1, cumsum(class$lengths * (1000/Hz)) + 1)[-(length(class$values) + 1)], 
-                           cumsum(class$lengths * (1000/Hz)), x_start, y_start, x_end, y_end, mean_x, mean_y, POGvar)
+                           cumsum(class$lengths * (1000/Hz)), x_start, y_start, x_end, y_end, mean_x, mean_y, POGvarSacAmp)
       names(simple)[1:4] <- c('Value', 'Dur', 'Start', 'End')
     }
   # Remove NA values
