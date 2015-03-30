@@ -3,7 +3,7 @@
 \alias{screen}
 \title{Screen Dimensions}
 \description{
-Screen and stimuli dimensions in pixels and mm, belonging to the dataset 'Eye_Data'.
+Screen and stimuli dimensions in pixels and mm, belonging to the dataset 'eye_data'.
 }
 \usage{screen}
 \format{A dataframe with 4 variables (the height and width of stimuli in pixels and mm)}
