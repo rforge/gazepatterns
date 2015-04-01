@@ -19,8 +19,8 @@ function(object, ..., complete_only = FALSE){
   }
   if(length(output) == 0){
     print('There were no fixations or saccades classified, probably data quality of this particpant is very low')
-    output <- data.frame(matrix(NA, 1, 7))
-    names(output)[3:5] <- c('mean_x', 'mean_y', 'POGvar')
+    output <- data.frame(matrix(NA, 1, 9))
+    names(output)[5:7] <- c('mean_x', 'mean_y', 'POGvar')
   } 
   names(output)[c(1:4, 8:9)] <- c('Value', 'Duration', 'Start', 'End', 'Order', 'Trial')
   row.names(output) <- 1:dim(output)[1]
