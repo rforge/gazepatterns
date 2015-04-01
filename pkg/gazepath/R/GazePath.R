@@ -58,8 +58,13 @@ function(data, x1, y1, x2 = NULL, y2 = NULL, distance, trial, height_px, height_
         s[[i]] <- Speed_Deg(X[[i]], Y[[i]], D[[i]], height_mm[i], width_mm[i], height_px[i], width_px[i], samplerate)
         ## Omit velocities over 1000 deg/s
         s[[i]] <- ifelse(s[[i]] > 1000, NA, s[[i]])
-        thres_vel[i] <- Mould_vel(s[[i]], Hz = samplerate)
-        fix <- c(fix, possiblefix(s[[i]], thres_vel[i]))
+        ## Check for enough local maxima
+        if(length(lomax(s[[i]])) > 10){
+          thres_vel[i] <- Mould_vel(s[[i]], Hz = samplerate)
+          fix <- c(fix, possiblefix(s[[i]], thres_vel[i]))
+        } else{
+          s[[i]] <- NA; thres_vel[i] <- NA
+        }
       } else {
         s[[i]] <- NA; thres_vel[i] <- NA
       }
@@ -95,8 +100,13 @@ function(data, x1, y1, x2 = NULL, y2 = NULL, distance, trial, height_px, height_
         s[[i]] <- Speed_Deg(X[[i]], Y[[i]], D[[i]], height_mm[i], width_mm[i], height_px[i], width_px[i], samplerate)
         ## Omit velocities over 1000 deg/s
         s[[i]] <- ifelse(s[[i]] > 1000, NA, s[[i]])
-        thres_vel[i] <- Mould_vel(s[[i]], Hz = samplerate)
-        fix <- c(fix, possiblefix(s[[i]], thres_vel[i]))
+        ## Check for enough local maxima
+        if(length(lomax(s[[i]])) > 10){
+          thres_vel[i] <- Mould_vel(s[[i]], Hz = samplerate)
+          fix <- c(fix, possiblefix(s[[i]], thres_vel[i]))
+        } else{
+          s[[i]] <- NA; thres_vel[i] <- NA
+        }
       } else {
         s[[i]] <- NA; thres_vel[i] <- NA
       }
