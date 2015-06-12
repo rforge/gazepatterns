@@ -1,14 +1,31 @@
 gazepath <-
-function(data, x1, y1, x2 = NULL, y2 = NULL, distance, trial, height_px, height_mm, width_px, width_mm, res_x = 1280, res_y = 1024, samplerate = 500, method = 'Mould', posthoc = FALSE, thres_vel = 35, thres_dur = 100, min_dist = 250){
+function(data, x1, y1, x2 = NULL, y2 = NULL, d1, d2 = NULL, trial, height_px, height_mm, width_px, width_mm, extra_var = NULL, res_x = 1280, res_y = 1024, samplerate = 500, method = 'Mould', posthoc = FALSE, thres_vel = 35, thres_dur = 100, min_dist = 250, in_thres = 150){
   ## Check if input is a data frame
   if(!is.data.frame(data)) {
     stop('please insert a data frame and define the column numbers of the variables')
   }
+  ## find extra variables
+  extra <- list()
+  if(!is.null(extra_var)){
+    for(i in 1:length(unique(data[,trial]))){
+      extra[[i]] <- sapply(1:length(extra_var), function(j) head(as.character(data[data[,trial] == i, which(names(data) == extra_var[j])]), 1))
+    }
+  }
   ## Check distance
-  data[,distance] <- ifelse(data[,distance] < min_dist, NA, data[,distance])
-  D <- by(data[,distance], data[,trial], data.frame)
+  data[,d1] <- ifelse(data[,d1] < min_dist, NA, data[,d1])
+  if(!is.null(d2)){
+    D <- by(data[,d1], data[,trial], data.frame)
+  } else {
+    data[,d2] <- ifelse(data[,d2] < min_dist, NA, data[,d2])
+    D <- by((data[,d1] + data[,d2]) / 2, data[,trial], data.frame)
+  }
+  
   ## Check input 1 or 2 eyes
   if(!is.null(x2) & !is.null(y2)){
+    data[,x1] <- ifelse(is.na(data[,x1]), data[,x2], data[,x1])
+    data[,y1] <- ifelse(is.na(data[,y1]), data[,y2], data[,y1])
+    data[,x2] <- ifelse(is.na(data[,x2]), data[,x1], data[,x2])
+    data[,y2] <- ifelse(is.na(data[,y2]), data[,y1], data[,y2])
     X <- by((data[,x1] + data[,x2]) / 2, data[,trial], data.frame)
     Y <- by((data[,y1] + data[,y2]) / 2, data[,trial], data.frame)
   } else {
@@ -124,46 +141,23 @@ function(data, x1, y1, x2 = NULL, y2 = NULL, distance, trial, height_px, height_
     } 
   }
   
-  if(method == 'Mould.all'){
-    s <- list()
+  if(method == 'gazepath'){
+    fix <- thres_vel <- numeric()
+    final <- list()
     for(i in 1:length(unique(data[,trial]))){
       ## Boundary check
       X[[i]] <- Boundary(X[[i]], (res_x - width_px[i]) / 2, res_x - (res_x - width_px[i]) / 2)
       Y[[i]] <- Boundary(Y[[i]], (res_y - height_px[i]) / 2, res_y - (res_y - height_px[i]) / 2)
-      ## Calculate speed
-      s[[i]] <- Speed_Deg(X[[i]], Y[[i]], D[[i]], height_mm[i], width_mm[i], height_px[i], width_px[i], samplerate)
-      ## Omit velocities over 1000 deg/s
-      s[[i]] <- ifelse(s[[i]] > 1000, NA, s[[i]])
-    }
-    
-    thres_vel <- Mould_vel(unlist(s), plot = F, Hz = samplerate)
-    fix <- possiblefix(unlist(s), thres_vel)
-    fix <- fix[!is.na(fix)]
-    
-    thres_dur <- Mould_dur(fix, plot = F, Hz = samplerate)
-    
-    final <- list()
-    for(i in 1:length(unique(data[,trial]))){
-      final[[i]] <- fixationANDsaccade(s[[i]], thres_vel, thres_dur, Hz = samplerate)
-    }
-  }
-  
-  if(method == 'Mould.fix'){
-    s <- list()
-    for(i in 1:length(unique(data[,trial]))){
-      ## Boundary check
-      X[[i]] <- Boundary(X[[i]], (res_x - width_px[i]) / 2, res_x - (res_x - width_px[i]) / 2)
-      Y[[i]] <- Boundary(Y[[i]], (res_y - height_px[i]) / 2, res_y - (res_y - height_px[i]) / 2)
-      ## Calculate speed
-      s[[i]] <- Speed_Deg(X[[i]], Y[[i]], D[[i]], height_mm[i], width_mm[i], height_px[i], width_px[i], samplerate)
-      ## Omit velocities over 1000 deg/s
-      s[[i]] <- ifelse(s[[i]] > 1000, NA, s[[i]])
-    }
-    
-    thres_vel <- Mould_vel(unlist(s), plot = F, Hz = samplerate)
-    final <- list()
-    for(i in 1:length(unique(data[,trial]))){
-      final[[i]] <- fixationANDsaccade(s[[i]], thres_vel, thres_dur, Hz = samplerate)
+      ## make sure there is at least 1 second of data avaible
+      if(length(which(!is.na(X[[i]]))) > samplerate & length(which(!is.na(Y[[i]]))) > samplerate & length(which(!is.na(D[[i]]))) > samplerate){
+        ## Use the interpolation function
+        interpol <- Interpolate(X[[i]], Y[[i]], D[[i]], height_mm[i], width_mm[i], height_px[i], width_px[i], res_x = 1280, res_y = 1024, Hz = samplerate, in_thres = in_thres)
+        final[[i]] <- ifelse(interpol[[7]] == 'missing', NA, interpol[[7]])
+        thres_vel <- interpol[[5]]
+        s[[i]] <- interpol[[6]]
+      } else {
+        s[[i]] <- NA; thres_vel[i] <- NA; final[[i]] <- NA
+      }
     }
   }
   
@@ -179,11 +173,13 @@ function(data, x1, y1, x2 = NULL, y2 = NULL, distance, trial, height_px, height_
   ## Simplify the raw classification
   sim <- list()
   for(i in 1:length(X)){
-    sim[[i]] <- simplify(final[[i]], X[[i]], Y[[i]], samplerate, D[[i]], width_px[i], width_mm[i])
+    sim[[i]] <- simplify(final[[i]], X[[i]], Y[[i]], samplerate, D[[i]], width_px[i], width_mm[i], extra[[i]], extra_var)
   }
   
   ## Determine robustness and precision
-  Robustness <- sapply(1:length(X), function(i) robust(X[[i]], samplerate))
+  Rob_x <- sapply(1:length(X), function(i) robust(X[[i]], samplerate))
+  Rob_y <- sapply(1:length(X), function(i) robust(Y[[i]], samplerate))
+  Robustness <- (Rob_x + Rob_y) / 2
   Pre_x <- sapply(1:length(X), function(i) precision(X[[i]], samplerate))
   Pre_y <- sapply(1:length(X), function(i) precision(Y[[i]], samplerate))
   Precision <- (Pre_x + Pre_y) / 2
