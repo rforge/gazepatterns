@@ -1,5 +1,3 @@
-library(SDMTools)
-library(zoo)
 ## Combine succesive fixations based on region, overlapping fixations are combined
 comhull <- function(d, classification, dat_x, dat_y, in_thres){
   d <- d[d$dur > 1,]
