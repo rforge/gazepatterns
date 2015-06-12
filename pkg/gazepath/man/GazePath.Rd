@@ -10,11 +10,11 @@ Transform Raw Eye-Tracking Data into Fixations and Saccades
 This function transforms raw eye-tracking data into fixations and saccades using a non-parametric speed-based approach to do this on a trial basis. The method is especially useful when there are large differences in data quality between or within participants. Lower data quality results in more conservative thresholds, thereby controlling for noise levels.
 }
 \usage{
-gazepath(data, x1, y1, x2 = NULL, y2 = NULL, distance, trial,
-height_px, height_mm, width_px, width_mm, 
+gazepath(data, x1, y1, x2 = NULL, y2 = NULL, d1, d2, trial,
+height_px, height_mm, width_px, width_mm, extra_var = NULL,
 res_x = 1280, res_y = 1024, samplerate = 500, 
 method = "Mould", posthoc = FALSE, thres_vel = 35, 
-thres_dur = 100, min_dist = 250)
+thres_dur = 100, min_dist = 250, in_thres = 150)
 
 \method{summary}{gazepath}(object, ..., complete_only = FALSE)
 \method{plot}{gazepath}(x, ..., i = 1)
@@ -38,8 +38,11 @@ When tracking was binocular, the column of the dataframe containing the x-coordi
   \item{y2}{
 When tracking was binocular, the column of the dataframe containing the y-coordinates of the second eye
 }
-  \item{distance}{
+  \item{d1}{
 The column of the dataframe containing the distance in mm
+}
+  \item{d2}{
+When tracking was binocular, the column of the dataframe containing the distance in mm of the second eye
 }
   \item{trial}{
 The column of the dataframe containing the trial or stimuli index
@@ -56,6 +59,9 @@ The width of the stimuli in pixels, can be a single value or a vector of length 
   \item{width_mm}{
 The height of the stimuli in pixels, can be a single value or a vector of length number of trials when stimuli differ in size per trial trials
 }
+  \item{extra_var}{
+A vector of names of the variables that must return in the output file, for example, condition, stimuli name, etc.
+}
   \item{res_x}{
 The horizontal resolution of the monitor in pixels
 }
@@ -66,15 +72,13 @@ The vertical resolution of the monitor in pixels
 The samplerate, e.g., 60 for a 60 Hz scanner, 500 for a 500 Hz scanner
 }
   \item{method}{
-Must be one of the following methods: Mould, Mould.all, MouldDur, Mould.fix, Tobii, Eyelink.
+Must be one of the following methods: Mould, MouldDur, gazepath, Tobii, Eyelink.
 
 Mould estimates velocity threshold per trial and duration thresholds per person (recommended for high, > 250 Hz, samplerate and high quality data)
 
-Mould.all estimates velocity and duration thresholds per person
-
 MouldDur estimates velocity threshold per trial and uses the duration thresholds specified under 'thres_dur' (recommended for low, < 250 Hz, samplerate data and data of low quality)
 
-Mould.fix estimates velocity thresholds per person and uses the duration thresholds specified under 'thres_dur'
+gazepath estimates velocity thresholds per person and uses the duration thresholds specified under 'thres_dur'. Furthermore, extra preprocessing steps are performed, such as, last point interpolation of missing data sequences of length in_thres and combining succesive fixations that overlap in space.
 
 Tobii derives fixations and saccades based on the algorithm described in the ClearView 2.7 manual
 
@@ -91,6 +95,9 @@ The desired duration threshold, will only be used for method 'Eyelink', 'MouldDu
 }
   \item{min_dist}{
 The minimal distance from the screen in mm, samples below this distance are considered unreliable and are omitted from further analysis.
+}
+  \item{in_thres}{
+The durations threshold in msec used by the gazepath method to interpolate.
 }
   \item{object}{
   Object of class 'gazepath' can be used in the plot, summary and print function
