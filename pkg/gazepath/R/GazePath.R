@@ -13,7 +13,7 @@ function(data, x1, y1, x2 = NULL, y2 = NULL, d1, d2 = NULL, trial, height_px, he
   }
   ## Check distance
   data[,d1] <- ifelse(data[,d1] < min_dist, NA, data[,d1])
-  if(!is.null(d2)){
+  if(is.null(d2)){
     D <- by(data[,d1], data[,trial], data.frame)
   } else {
     data[,d2] <- ifelse(data[,d2] < min_dist, NA, data[,d2])
