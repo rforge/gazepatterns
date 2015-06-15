@@ -6,11 +6,18 @@ function(data, x1, y1, x2 = NULL, y2 = NULL, d1, d2 = NULL, trial, height_px, he
   }
   ## find extra variables
   extra <- list()
+  
   if(!is.null(extra_var)){
-    for(i in 1:length(unique(data[,trial]))){
-      extra[[i]] <- sapply(1:length(extra_var), function(j) head(as.character(data[data[,trial] == i, which(names(data) == extra_var[j])]), 1))
+    if(sum(extra_var %in% names(data)) == length(extra_var)){
+      for(i in unique(data[,trial])){
+        extra[[i]] <- sapply(1:length(extra_var), function(j) head(as.character(data[data[,trial] == i, which(names(data) == extra_var[j])]), 1))
+      }
+    } else {
+      extra_var <- NULL
+      print('Please make sure the variables to pass through have the correct names')
     }
   }
+
   ## Check distance
   data[,d1] <- ifelse(data[,d1] < min_dist, NA, data[,d1])
   if(is.null(d2)){
