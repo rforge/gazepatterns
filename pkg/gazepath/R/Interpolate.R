@@ -4,7 +4,7 @@ Interpolate <- function(X, Y, D, height_mm, width_mm, height_px, width_px, res_x
   s <- Speed(X, Y, D, height_mm, width_mm, height_px, width_px, res_x = 1280, res_y = 1024, Hz)
   s <- ifelse(s > 1000, NA, s)
   if(sum(lomax(s)) < 10){
-    return('Not enough data')
+    return('No Return')
   } else {
     M <- Mould_vel(s, Hz)
     
@@ -50,7 +50,7 @@ Interpolate <- function(X, Y, D, height_mm, width_mm, height_px, width_px, res_x
     names(d)[1:4] <- c('index', 'dur', 'start', 'end')
     
     ## Combine fixations
-    classification <- comhull(d, classification, dat_x, dat_y, in_thres)
+    classification <- comhull(d, classification, dat_x, dat_y, in_thres, Hz)
     
     CL <- rle(classification[[1]])
     dat_x <- classification[[2]]

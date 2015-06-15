@@ -1,5 +1,5 @@
 ## Combine succesive fixations based on region, overlapping fixations are combined
-comhull <- function(d, classification, dat_x, dat_y, in_thres){
+comhull <- function(d, classification, dat_x, dat_y, in_thres, Hz = Hz){
   d <- d[d$dur > 1,]
   fix <- tail(which(d$index == 'fixation'), 1)
   count <- length(which(d$index == 'fixation')) - 1
