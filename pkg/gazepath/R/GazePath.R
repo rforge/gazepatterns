@@ -167,7 +167,7 @@ function(data, x1, y1, x2 = NULL, y2 = NULL, d1, d2 = NULL, trial, height_px, he
           s[[i]] <- NA; thres_vel[i] <- NA; final[[i]] <- NA
         }
       } else {
-        s[[i]] <- NA; thres_vel[i] <- NA; Final[[i]] <- NA
+        s[[i]] <- NA; thres_vel[i] <- NA; final[[i]] <- NA
       }
     }
   }
