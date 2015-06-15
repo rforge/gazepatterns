@@ -3,7 +3,7 @@ Interpolate <- function(X, Y, D, height_mm, width_mm, height_px, width_px, res_x
   
   s <- Speed(X, Y, D, height_mm, width_mm, height_px, width_px, res_x = 1280, res_y = 1024, Hz)
   s <- ifelse(s > 1000, NA, s)
-  if(lomax(s) < 10){
+  if(sum(lomax(s)) < 10){
     return('Not enough data')
   } else {
     M <- Mould_vel(s, Hz)

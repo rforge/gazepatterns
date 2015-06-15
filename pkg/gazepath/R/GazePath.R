@@ -152,9 +152,13 @@ function(data, x1, y1, x2 = NULL, y2 = NULL, d1, d2 = NULL, trial, height_px, he
       if(length(which(!is.na(X[[i]]))) > samplerate & length(which(!is.na(Y[[i]]))) > samplerate & length(which(!is.na(D[[i]]))) > samplerate){
         ## Use the interpolation function
         interpol <- Interpolate(X[[i]], Y[[i]], D[[i]], height_mm[i], width_mm[i], height_px[i], width_px[i], res_x = 1280, res_y = 1024, Hz = samplerate, in_thres = in_thres)
-        final[[i]] <- ifelse(interpol[[7]] == 'missing', NA, interpol[[7]])
-        thres_vel <- interpol[[5]]
-        s[[i]] <- interpol[[6]]
+        if(interpol != 'No Return'){
+          final[[i]] <- ifelse(interpol[[7]] == 'missing', NA, interpol[[7]])
+          thres_vel <- interpol[[5]]
+          s[[i]] <- interpol[[6]]
+        } else {
+          s[[i]] <- NA; thres_vel[i] <- NA; final[[i]] <- NA
+        }
       } else {
         s[[i]] <- NA; thres_vel[i] <- NA; final[[i]] <- NA
       }
