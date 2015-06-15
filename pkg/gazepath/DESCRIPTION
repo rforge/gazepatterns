@@ -1,7 +1,7 @@
 Package: gazepath
 Type: Package
 Title: Transform Eye-Tracking Data into Fixations and Saccades
-Version: 1.01
+Version: 1.1
 Date: 2015-06-06
 Author: Daan van Renswoude & Ingmar Visser
 Maintainer: Daan van Renswoude <D.R.vanRenswoude@uva.nl>
