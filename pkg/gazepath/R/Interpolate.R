@@ -35,6 +35,7 @@ Interpolate <- function(X, Y, D, height_mm, width_mm, height_px, width_px, res_x
     }
     
     s <- Speed(dat_x, dat_y, dat_d, height_mm, width_mm, height_px, width_px, res_x = res_x, res_y = res_y, Hz)
+    s <- ifelse(s > 1000, NA, s)
     
     classification <- ifelse(s > M, 'saccade', 'fixation')
     classification[is.na(classification)] <- 'missing'
