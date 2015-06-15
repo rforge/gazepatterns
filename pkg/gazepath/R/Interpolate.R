@@ -65,7 +65,7 @@ Interpolate <- function(X, Y, D, height_mm, width_mm, height_px, width_px, res_x
     dur <- CL$length * (1000 / Hz)
     start <- (end - dur) + 1
     d <- data.frame(index, dur, start, end, mean_x, mean_y)
-    d <- d[!(d[,1] == 'fixation' & d[,2] < thres_dur),]
+    #d <- d[!(d[,1] == 'fixation' & d[,2] < thres_dur),]
     d <- data.frame(d, order=1:dim(d)[1])
     
     return(list(dat_x, dat_y, dat_d, d, M, s, classification))
