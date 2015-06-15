@@ -1,10 +1,10 @@
 ## Interpolation function
-Interpolate <- function(X, Y, D, height_mm, width_mm, height_px, width_px, res_x = res_x, res_y = res_y, Hz = samplerate, in_thres = in_thres, thres_dur = thres_dur){
+Interpolate <- function(X, Y, D, height_mm, width_mm, height_px, width_px, res_x = res_x, res_y = res_y, Hz = Hz, in_thres = in_thres, thres_dur = thres_dur){
   
   s <- Speed(X, Y, D, height_mm, width_mm, height_px, width_px, res_x = 1280, res_y = 1024, Hz)
   s <- ifelse(s > 1000, NA, s)
   if(sum(lomax(s)) < 10){
-    return('No Return')
+    return(list('No Return', 'No Return','No Return','No Return','No Return','No Return','No Return','No Return'))
   } else {
     M <- Mould_vel(s, Hz)
     
@@ -24,7 +24,7 @@ Interpolate <- function(X, Y, D, height_mm, width_mm, height_px, width_px, res_x
         if(d[i + 1, 1] == 'fixation' & d[i - 1, 1] == 'fixation'){
           ii_s <- d[i - 1, 4]
           ii_e <- d[i + 1, 3]
-          speed <- Speed(c(dat_x[ii_s], dat_x[ii_s], dat_x[ii_e]), c(dat_y[ii_s], dat_y[ii_s], dat_y[ii_e]), c(dat_d[ii_s], dat_d[ii_s], dat_d[ii_e]), height_mm, width_mm, height_px, width_px, res_x = 1280, res_y = 1024, Hz)
+          speed <- Speed(c(dat_x[ii_s], dat_x[ii_s], dat_x[ii_e]), c(dat_y[ii_s], dat_y[ii_s], dat_y[ii_e]), c(dat_d[ii_s], dat_d[ii_s], dat_d[ii_e]), height_mm, width_mm, height_px, width_px, res_x = res_x, res_y = res_y, Hz)
           if(speed[2] < M){
             dat_x[d[i, 3] : d[i, 4]] <- dat_x[ii_s]
             dat_y[d[i, 3] : d[i, 4]] <- dat_y[ii_s]
@@ -34,7 +34,7 @@ Interpolate <- function(X, Y, D, height_mm, width_mm, height_px, width_px, res_x
       }
     }
     
-    s <- Speed(dat_x, dat_y, dat_d, height_mm, width_mm, height_px, width_px, res_x = 1280, res_y = 1024, Hz)
+    s <- Speed(dat_x, dat_y, dat_d, height_mm, width_mm, height_px, width_px, res_x = res_x, res_y = res_y, Hz)
     
     classification <- ifelse(s > M, 'saccade', 'fixation')
     classification[is.na(classification)] <- 'missing'
@@ -53,6 +53,20 @@ Interpolate <- function(X, Y, D, height_mm, width_mm, height_px, width_px, res_x
     classification <- comhull(d, classification, dat_x, dat_y, in_thres, Hz)
     
     CL <- rle(classification[[1]])
+    clas <- classification[[1]]
+    
+    ## Remove short fixations & saccades
+    for(i in which(CL$value == 'saccade' & CL$length < (Hz / 1000 * 10))){
+      clas[((cumsum(CL$length) - CL$length) + 1)[i] : cumsum(CL$length)[i]] <- 'fixation' 
+    }
+    
+    CL <- rle(clas)
+    ## Remove short fixations
+    for(i in which(CL$value == 'fixation' & CL$length < thres_dur)){
+      clas[((cumsum(CL$length) - CL$length) + 1)[i] : cumsum(CL$length)[i]] <- 'saccade' 
+    }
+    
+    CL <- rle(clas)
     dat_x <- classification[[2]]
     dat_y <- classification[[3]]
     
@@ -64,10 +78,10 @@ Interpolate <- function(X, Y, D, height_mm, width_mm, height_px, width_px, res_x
     end <- cumsum(CL$length) * (1000 / Hz)
     dur <- CL$length * (1000 / Hz)
     start <- (end - dur) + 1
+    
     d <- data.frame(index, dur, start, end, mean_x, mean_y)
-    #d <- d[!(d[,1] == 'fixation' & d[,2] < thres_dur),]
     d <- data.frame(d, order=1:dim(d)[1])
     
-    return(list(dat_x, dat_y, dat_d, d, M, s, classification))
+    return(list(dat_x, dat_y, dat_d, d, M, s, clas, 'Return'))
   }
 }

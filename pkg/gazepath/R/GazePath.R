@@ -143,7 +143,7 @@ function(data, x1, y1, x2 = NULL, y2 = NULL, d1, d2 = NULL, trial, height_px, he
   
   if(method == 'gazepath'){
     fix <- thres_vel <- numeric()
-    final <- list()
+    final <- s <- list()
     for(i in 1:length(unique(data[,trial]))){
       ## Boundary check
       X[[i]] <- Boundary(X[[i]], (res_x - width_px[i]) / 2, res_x - (res_x - width_px[i]) / 2)
@@ -151,16 +151,16 @@ function(data, x1, y1, x2 = NULL, y2 = NULL, d1, d2 = NULL, trial, height_px, he
       ## make sure there is at least 1 second of data avaible
       if(length(which(!is.na(X[[i]]))) > samplerate & length(which(!is.na(Y[[i]]))) > samplerate & length(which(!is.na(D[[i]]))) > samplerate){
         ## Use the interpolation function
-        interpol <- Interpolate(X[[i]], Y[[i]], D[[i]], height_mm[i], width_mm[i], height_px[i], width_px[i], res_x = 1280, res_y = 1024, Hz = samplerate, in_thres = in_thres)
-        if(interpol != 'No Return'){
-          final[[i]] <- ifelse(interpol[[7]] == 'missing', NA, interpol[[7]])
-          thres_vel <- interpol[[5]]
+        interpol <- Interpolate(X[[i]], Y[[i]], D[[i]], height_mm[i], width_mm[i], height_px[i], width_px[i], res_x = res_x, res_y = res_y, Hz = samplerate, in_thres = in_thres, thres_dur = thres_dur)
+        if(interpol[[8]] == 'Return'){
+          final[[i]] <- ifelse(interpol[[7]] == 'missing', NA, ifelse(interpol[[7]] == 'fixation', 'f', 's'))
+          thres_vel[i] <- interpol[[5]]
           s[[i]] <- interpol[[6]]
         } else {
           s[[i]] <- NA; thres_vel[i] <- NA; final[[i]] <- NA
         }
       } else {
-        s[[i]] <- NA; thres_vel[i] <- NA; final[[i]] <- NA
+        s[[i]] <- NA; thres_vel[i] <- NA; Final[[i]] <- NA
       }
     }
   }
