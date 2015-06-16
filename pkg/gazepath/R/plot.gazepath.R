@@ -1,6 +1,5 @@
 plot.gazepath <-
-function(x, ..., i = 1){
-  object <- x
+function(object, ..., i = 1){
   if(length(which(!is.na(object[[2]][[i]]))) < object[[10]] | length(which(!is.na(object[[3]][[i]]))) < object[[10]]){
     warning('There is not enough data to identify fixations and saccades in this trial')
   } else {
@@ -9,11 +8,12 @@ function(x, ..., i = 1){
     sim <- object[[16]][[i]]
     points(sim[sim[,1] == 'f', 9:10], pch = letters, cex = 3, col = 4)
     
-    plot(object[[2]][[i]], ylim = c(-50, object[[14]][[i]]), type = 'l', xlab = 'Time (msec)', ylab = 'position', las = 1, xaxt = 'n')
-    lines(object[[3]][[i]])
+    plot(object[[2]][[i]], ylim = c(-50, max(object[[14]][[i]], object[[12]][[i]]) + 100), type = 'l', xlab = 'Time (msec)', ylab = 'position', las = 1, xaxt = 'n', col = 5)
+    lines(object[[3]][[i]], col = 4)
     axis(1, at = seq(0, length(object[[2]][[i]]), length.out = 6), labels = round(seq(0, length(object[[2]][[i]]) * (1000 / object[[10]]), length.out = 6)))
     fix <- sim[sim[,1] == 'f',3:4] / (1000 / object[[10]])
     rect(fix[,1], -50, fix[,2], 0, col = 3)
+    legend('topleft', c('X-coordinates', 'Y-coordinates', 'Fixations'), col = 5:3, lwd = 2, bty = 'n', horiz = TRUE)
     
     if(object[[4]] != 'Tobii' & object[[4]] != 'Eyelink'){
       plot(object[[9]][[i]], typ = 'l', xlab = 'Time (msec)', ylab = 'Speed (deg/s)', las = 1, xaxt = 'n')

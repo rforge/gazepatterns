@@ -1,5 +1,5 @@
 summary.gazepath <-
-function(object, ..., complete_only = FALSE){
+function(object, ..., complete_only = FALSE, fixations_only = FALSE){
   output <- numeric()
   for(i in 1:length(object[[16]])){
     end <- dim(object[[16]][[i]])[2]
@@ -14,7 +14,12 @@ function(object, ..., complete_only = FALSE){
           }
         }         
       } else {
-        output <- rbind(output, cbind(sim[sim[,1] == 'f', c(1:4, 9:end)], 1:l, i))
+        if(fixations_only == TRUE){
+          output <- rbind(output, cbind(sim[sim[,1] == 'f', c(1:4, 9:end)], 1:l, i))
+        } else {
+          l <- sum(sim[,1] == 'f' | sim[,1] == 's')
+          output <- rbind(output, cbind(sim[sim[,1] == 'f' | sim[,1] == 's',c(1:4, 9:end)], 1:l, i))
+        }
       }
     }
   }
