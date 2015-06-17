@@ -1,5 +1,6 @@
 plot.gazepath <-
-function(object, ..., i = 1){
+function(x, ..., i = 1){
+  object <- x
   if(length(which(!is.na(object[[2]][[i]]))) < object[[10]] | length(which(!is.na(object[[3]][[i]]))) < object[[10]]){
     warning('There is not enough data to identify fixations and saccades in this trial')
   } else {

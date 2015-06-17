@@ -16,7 +16,7 @@ res_x = 1280, res_y = 1024, samplerate = 500,
 method = "Mould", posthoc = FALSE, thres_vel = 35, 
 thres_dur = 100, min_dist = 250, in_thres = 150)
 
-\method{summary}{gazepath}(object, ..., complete_only = FALSE)
+\method{summary}{gazepath}(object, ..., complete_only = FALSE, fixations_only = FALSE)
 \method{plot}{gazepath}(x, ..., i = 1)
 \method{print}{gazepath}(x, ...)
 
@@ -91,7 +91,7 @@ TRUE or FALSE (default). When TRUE successive fixations close in space are merge
 The desired velocity threshold, will only be used for method 'Eyelink'
 }
   \item{thres_dur}{
-The desired duration threshold, will only be used for method 'Eyelink', 'MouldDur' and 'Mould.fix' 
+The desired duration threshold, will be used for methods 'gazepath', 'Eyelink' and 'MouldDur' 
 }
   \item{min_dist}{
 The minimal distance from the screen in mm, samples below this distance are considered unreliable and are omitted from further analysis.
@@ -110,6 +110,9 @@ The durations threshold in msec used by the gazepath method to interpolate.
   }
   \item{complete_only}{
   Argument (TRUE/FALSE) to indicate whether only fixations that have incoming out outgoing saccades and saccades that are between two fixations should be selected
+  }
+  \item{fixations_only}{
+  Argument (TRUE/FALSE) to indicate whether only fixations should be returned by summary, instead of fixations and saccades
   }
   \item{...}{
   Not used currently

@@ -7,12 +7,19 @@ function(object, ..., complete_only = FALSE, fixations_only = FALSE){
     l <- length(which(sim[,1] == 'f'))
     if(l != 0){
       if(complete_only == TRUE){
-        if(length(which(sim[,1] == 's')) != 0){
-          index <- sort(c(complete(sim, 'f'), complete(sim, 's')))
+        if(fixations_only == TRUE){
+          index <- complete(sim, 'f')
           if(length(index) != 0){
             output <- rbind(output, cbind(sim[index, c(1:4, 9:end)], 1:length(index), i))
           }
-        }         
+        } else {
+          if(length(which(sim[,1] == 's')) != 0){
+            index <- sort(c(complete(sim, 'f'), complete(sim, 's')))
+            if(length(index) != 0){
+              output <- rbind(output, cbind(sim[index, c(1:4, 9:end)], 1:length(index), i))
+            }
+          } 
+        }
       } else {
         if(fixations_only == TRUE){
           output <- rbind(output, cbind(sim[sim[,1] == 'f', c(1:4, 9:end)], 1:l, i))
