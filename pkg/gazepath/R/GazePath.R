@@ -163,6 +163,8 @@ function(data, x1, y1, x2 = NULL, y2 = NULL, d1, d2 = NULL, trial, height_px, he
           final[[i]] <- ifelse(interpol[[7]] == 'missing', NA, ifelse(interpol[[7]] == 'fixation', 'f', 's'))
           thres_vel[i] <- interpol[[5]]
           s[[i]] <- interpol[[6]]
+          X[[i]] <- interpol[[1]]
+          Y[[i]] <- interpol[[2]]
         } else {
           s[[i]] <- NA; thres_vel[i] <- NA; final[[i]] <- NA
         }
