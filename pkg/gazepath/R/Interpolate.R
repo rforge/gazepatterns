@@ -63,7 +63,7 @@ Interpolate <- function(X, Y, D, height_mm, width_mm, height_px, width_px, res_x
     
     CL <- rle(clas)
     ## Remove short fixations
-    for(i in which(CL$value == 'fixation' & CL$length < thres_dur)){
+    for(i in which(CL$value == 'fixation' & CL$length < (Hz / 1000 * thres_dur))){
       clas[((cumsum(CL$length) - CL$length) + 1)[i] : cumsum(CL$length)[i]] <- 'saccade' 
     }
     

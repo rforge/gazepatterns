@@ -1,8 +1,9 @@
 summary.gazepath <-
 function(object, ..., complete_only = FALSE, fixations_only = FALSE){
   output <- numeric()
+  end <- dim(object[[16]][[1]])[2]
   for(i in 1:length(object[[16]])){
-    end <- dim(object[[16]][[i]])[2]
+    if(end == 4) end <- dim(object[[16]][[i]])[2]
     sim <- object[[16]][[i]]
     l <- length(which(sim[,1] == 'f'))
     if(l != 0){
