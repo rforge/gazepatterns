@@ -16,7 +16,8 @@ res_x = 1280, res_y = 1024, samplerate = 500,
 method = "Mould", posthoc = FALSE, thres_vel = 35, 
 thres_dur = 100, min_dist = 250, in_thres = 150)
 
-\method{summary}{gazepath}(object, ..., complete_only = FALSE, fixations_only = FALSE)
+\method{summary}{gazepath}(object, ..., 
+complete_only = FALSE, fixations_only = FALSE)
 \method{plot}{gazepath}(x, ..., i = 1)
 \method{print}{gazepath}(x, ...)
 
@@ -161,7 +162,7 @@ gazepath returns a list of 16 items. plot() and summary() can be used to verify 
 Mould, M. S., Foster, D. H., Amano, K., & Oakley, J. P. (2012). A simple nonparametric method for classifying eye fixations. Vision research, 57, 18-25.
 }
 \author{
-Daan van Renswoude
+Daan van Renswoude & Ingmar Visser
 }
 
 \examples{
@@ -169,7 +170,8 @@ Daan van Renswoude
 data(screen)
 data(eye_data)
 example <- gazepath(eye_data, x1 = 1, y1 = 2, d1 = 4, trial = 3, 
-height_px = screen[,1], height_mm = screen[,2], width_px = screen[,3], width_mm = screen[,4], 
+height_px = screen[,1], height_mm = screen[,2], 
+width_px = screen[,3], width_mm = screen[,4], 
 method = 'Mould', samplerate = 500)
 
 ## Use different i's to check the estimated fixations per trial
