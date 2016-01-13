@@ -73,11 +73,13 @@ The vertical resolution of the monitor in pixels
 The samplerate, e.g., 60 for a 60 Hz scanner, 500 for a 500 Hz scanner
 }
   \item{method}{
-Must be one of the following methods: Mould, MouldDur, gazepath, Tobii, Eyelink.
+Must be one of the following methods: Mould, MouldDur, Mould.all, gazepath, Tobii, Eyelink.
 
 Mould estimates velocity threshold per trial and duration thresholds per person (recommended for high, > 250 Hz, samplerate and high quality data)
 
 MouldDur estimates velocity threshold per trial and uses the duration thresholds specified under 'thres_dur' (recommended for low, < 250 Hz, samplerate data and data of low quality)
+
+Mould.all estimates velocity threshold and duration threshold for all trials (recommended for high, > 250 Hz, samplerate data and data with short trial times, < 2 seconds)
 
 gazepath estimates velocity thresholds per person and uses the duration thresholds specified under 'thres_dur'. Furthermore, extra preprocessing steps are performed, such as, last point interpolation of missing data sequences of length in_thres and combining succesive fixations that overlap in space.
 

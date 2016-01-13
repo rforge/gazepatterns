@@ -111,6 +111,30 @@ function(data, x1, y1, x2 = NULL, y2 = NULL, d1, d2 = NULL, trial, height_px, he
     } 
   }
   
+  if(method == 'Mould.all'){
+    s <- list()
+    for(i in 1:length(unique(data[,trial]))){
+      ## Boundary check
+      X[[i]] <- Boundary(X[[i]], (res_x - width_px[i]) / 2, res_x - (res_x - width_px[i]) / 2)
+      Y[[i]] <- Boundary(Y[[i]], (res_y - height_px[i]) / 2, res_y - (res_y - height_px[i]) / 2)
+      ## Calculate speed
+      s[[i]] <- Speed_Deg(X[[i]], Y[[i]], D[[i]], height_mm[i], width_mm[i], height_px[i], width_px[i], samplerate)
+      ## Omit velocities over 1000 deg/s
+      s[[i]] <- ifelse(s[[i]] > 1000, NA, s[[i]])
+    }
+    
+    thres_vel <- Mould_vel(unlist(s), plot = F, Hz = samplerate)
+    fix <- possiblefix(unlist(s), thres_vel)
+    fix <- fix[!is.na(fix)]
+    
+    thres_dur <- Mould_dur(fix, plot = F, Hz = samplerate)
+    
+    final <- list()
+    for(i in 1:length(unique(data[,trial]))){
+      final[[i]] <- fixationANDsaccade(s[[i]], thres_vel, thres_dur, Hz = samplerate)
+    }
+  }
+  
   if(method == 'MouldDur'){
     fix <- thres_vel <- numeric()
     s <- list()
