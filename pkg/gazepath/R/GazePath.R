@@ -5,8 +5,8 @@ function(data, x1, y1, x2 = NULL, y2 = NULL, d1, d2 = NULL, trial, height_px, he
     stop('please insert a data frame and define the column numbers of the variables')
   }
   ## identify unique trials
-  if(length(unique(data[,trial])) != length(rle(data[,trial])$lengths)){
-    TRIAL_NEW <- rep.int(1:length(rle(data[,trial])$lengths), rle(data[,trial])$lengths)
+  if(length(unique(data[,trial])) != length(rle(as.numeric(data[,trial]))$lengths)){
+    TRIAL_NEW <- rep.int(1:length(rle(as.numeric(data[,trial]))$lengths), rle(as.numeric(data[,trial]))$lengths)
     data <- data.frame(data, TRIAL_NEW)
     if(is.numeric(trial)){
       names(data)[trial] <- 'TRIAL_OLD'
