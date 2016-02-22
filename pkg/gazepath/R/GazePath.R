@@ -4,6 +4,19 @@ function(data, x1, y1, x2 = NULL, y2 = NULL, d1, d2 = NULL, trial, height_px, he
   if(!is.data.frame(data)) {
     stop('please insert a data frame and define the column numbers of the variables')
   }
+  ## identify unique trials
+  if(length(unique(data[,trial])) != length(rle(data[,trial])$lengths)){
+    TRIAL_NEW <- rep.int(1:length(rle(data[,trial])$lengths), rle(data[,trial])$lengths)
+    data <- data.frame(data, TRIAL_NEW)
+    if(is.numeric(trial)){
+      names(data)[trial] <- 'TRIAL_OLD'
+      trial <- 'trial'
+    } else {
+      names(data)[which(names(data) == trial)] <- 'TRIAL_OLD'
+    }
+    names(data)[ncol(data)] <- trial
+    warning('The trial index in the data frame was not unique, therefore trials are renamed to be unique and the old trial indx is stored in the data as TRIAL_OLD')
+  }
   ## find extra variables
   extra <- list()
   
@@ -222,6 +235,10 @@ function(data, x1, y1, x2 = NULL, y2 = NULL, d1, d2 = NULL, trial, height_px, he
   Precision <- (Pre_x + Pre_y) / 2
   
   output <- list(final, X, Y, method, Robustness, Precision, thres_vel, thres_dur, s, samplerate, D, height_px, height_mm, width_px, width_mm, sim)
+  names(output) <- c('classifications', 'x-coor', 'y-coor', 'method', 'robustness',
+                     'precision', 'vel_thres', 'dur_thres', 'speed', 'samplerate',
+                     'distance', 'height_px', 'height_mm', 'width_px', 'width_mm',
+                     'fixations')
   class(output) <- 'gazepath'
   return(output)
 }

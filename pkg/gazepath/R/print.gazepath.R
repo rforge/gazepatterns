@@ -9,7 +9,7 @@ print.gazepath <- function(x, ...){
       '\n',
       raw, 'raw data points were classifies into', fix, 'fixations',
       '\n',
-      'The plot(gazepath-object, i = trial-number) function can be used to visualize the results',
+      'The plot(gazepath-object, trial_index = trial-number) function can be used to visualize the results',
       '\n',
       'The summary(gazepath-object) can be used get all fixations')
 }

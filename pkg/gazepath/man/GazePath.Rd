@@ -10,7 +10,7 @@ Transform Raw Eye-Tracking Data into Fixations and Saccades
 This function transforms raw eye-tracking data into fixations and saccades using a non-parametric speed-based approach to do this on a trial basis. The method is especially useful when there are large differences in data quality between or within participants. Lower data quality results in more conservative thresholds, thereby controlling for noise levels.
 }
 \usage{
-gazepath(data, x1, y1, x2 = NULL, y2 = NULL, d1, d2, trial,
+gazepath(data, x1, y1, x2 = NULL, y2 = NULL, d1, d2 = NULL, trial,
 height_px, height_mm, width_px, width_mm, extra_var = NULL,
 res_x = 1280, res_y = 1024, samplerate = 500, 
 method = "Mould", posthoc = FALSE, thres_vel = 35, 
@@ -18,7 +18,7 @@ thres_dur = 100, min_dist = 250, in_thres = 150)
 
 \method{summary}{gazepath}(object, ..., 
 complete_only = FALSE, fixations_only = FALSE)
-\method{plot}{gazepath}(x, ..., i = 1)
+\method{plot}{gazepath}(x, ..., trial_index = 1)
 \method{print}{gazepath}(x, ...)
 
 }
@@ -108,7 +108,7 @@ The durations threshold in msec used by the gazepath method to interpolate.
   \item{x}{
   Object of class 'gazepath' can be used in the plot, summary and print function
   }
-  \item{i}{
+  \item{trial_index}{
   Argument of the plot function, refering to the trial to be plotted
   }
   \item{complete_only}{
@@ -125,7 +125,7 @@ The durations threshold in msec used by the gazepath method to interpolate.
 no details
 }
 \value{
-gazepath returns a list of 16 items. plot() and summary() can be used to verify the procedure and obtain the fixations.
+gazepath returns a list of 16 items. names(list) and be used to extract useful information, the plot() and summary() functions can be used to verify the procedure and obtain the fixations.
 
 \item{1. Classifications}{List of length number of trials with a vector indicating whether a sample is classified as fixation 'f', saccade 's', unknown 'u' or NA}
 \item{2. x-coordinates}{List of length number of trials with vectors of the x-coordinates of each trial}
@@ -134,13 +134,13 @@ gazepath returns a list of 16 items. plot() and summary() can be used to verify 
 
 \item{4. Method}{single value indicating what method was used to classify fixations and saccades}
 
-\item{5. Robustness}{List of length number of trials with vectors containing the mean durations of usable data segments per trial. Higher values indicate better data quality}
+\item{5. Robustness}{Vector containing the mean durations of usable data segments per trial in milliseconds. Higher values indicate better data quality}
 
-\item{6. Presicion}{List of length number of trials with vectors containing the mean variances in point of gaze in degrees of visual angle per trial. Higher values indicate poorer data quality}
+\item{6. Presicion}{Vector containing the mean differences in pixels between raw data points and a smoothed version of the data. Higher values indicate poorer data quality}
 
-\item{7. Velocity thresholds}{List of length number of trials containing the velocity thresholds}
+\item{7. Velocity thresholds}{Vector with the velocity thresholds of each trial (methods: gazepath, Mould, MouldDur) in deg/s, or a single value when a single velocity threshold is used(methods: eyelink, Mould.all, Tobii)}
 
-\item{8. Duration threshold}{The duration thresholds}
+\item{8. Duration threshold}{Vector with the duration thresholds of each trial (method: Mould) in milliseconds, or a single value when a single duration threshold is used(methods: gazepath, MouldDur, eyelink, Mould.all, Tobii)}
 
 \item{9. Speed}{List of length number of trials with vectors containing the speed at each sample}
 
@@ -178,7 +178,7 @@ method = 'Mould', samplerate = 500)
 
 ## Use different i's to check the estimated fixations per trial
 i <- 1
-plot(example, i = i)
+plot(example, trial_index = i)
 
 ## The estimated fixations, orderded per trial
 summary(example, complete_only = FALSE)

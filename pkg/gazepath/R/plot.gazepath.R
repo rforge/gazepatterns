@@ -1,5 +1,6 @@
 plot.gazepath <-
-function(x, ..., i = 1){
+function(x, ..., trial_index = 1){
+  i <- trial_index
   object <- x
   if(length(which(!is.na(object[[2]][[i]]))) < object[[10]] | length(which(!is.na(object[[3]][[i]]))) < object[[10]]){
     warning('There is not enough data to identify fixations and saccades in this trial')
@@ -19,7 +20,11 @@ function(x, ..., i = 1){
     if(object[[4]] != 'Tobii' & object[[4]] != 'Eyelink'){
       plot(object[[9]][[i]], typ = 'l', xlab = 'Time (msec)', ylab = 'Speed (deg/s)', las = 1, xaxt = 'n')
       axis(1, at = seq(0, length(object[[9]][[i]]), length.out = 6), labels = round(seq(0, length(object[[9]][[i]]) * (1000 / object[[10]]), length.out = 6)))
-      segments(0, object[[7]][[i]], length(object[[9]][[i]]), object[[7]][[i]], col = 2, lwd= 2)
+      if(object[[4]] == 'Mould.all'){
+        segments(0, object[[7]], length(object[[9]][[i]]), object[[7]], col = 2, lwd= 2)
+      } else {
+        segments(0, object[[7]][[i]], length(object[[9]][[i]]), object[[7]][[i]], col = 2, lwd= 2)
+      }
     }
   }
 }
