@@ -28,25 +28,25 @@ complete_only = FALSE, fixations_only = FALSE)
 The dataframe with at least the raw x- and y-coordinates, the distance to the screen in mm and a trial index.
 }
   \item{x1}{
-the column of the dataframe containing the x-coordinates
+The column name (between quotes, e.g. 'x1') or the number of the column in the dataframe containing the x-coordinates
 }
   \item{y1}{
-the column of the dataframe containing the y-coordinates
+The column name (between quotes, e.g. 'y1') or the number of the column in the dataframe containing the y-coordinates
 }
   \item{x2}{
-When tracking was binocular, the column of the dataframe containing the x-coordinates of the second eye
+When tracking was binocular, the column name (between quotes, e.g. 'x2') or number of the dataframe containing the x-coordinates of the second eye
 }
   \item{y2}{
-When tracking was binocular, the column of the dataframe containing the y-coordinates of the second eye
+When tracking was binocular, the column name (between quotes, e.g. 'y2') or number of the dataframe containing the y-coordinates of the second eye
 }
   \item{d1}{
-The column of the dataframe containing the distance in mm
+The column name (between quotes, e.g. 'd2') or numberof the dataframe containing the distance in mm
 }
   \item{d2}{
-When tracking was binocular, the column of the dataframe containing the distance in mm of the second eye
+When tracking was binocular, the column name (between quotes, e.g. 'd2') or number of the dataframe containing the distance in mm of the second eye
 }
   \item{trial}{
-The column of the dataframe containing the trial or stimuli index
+The column name (between quotes, e.g. 'TRIAL_INDEX') or number of the dataframe containing the trial or stimuli index
 }
   \item{height_px}{
 The height of the stimuli in pixels, can be a single value or a vector of length number of trials when stimuli differ in size per trial
