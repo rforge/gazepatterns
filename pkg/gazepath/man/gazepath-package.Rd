@@ -12,7 +12,7 @@ Eye-tracking data must be transformed into fixations and saccades before it can 
 Package: \tab gazepath\cr
 Type: \tab Package\cr
 Version: \tab 1.1\cr
-Date: \tab 2016-03-03\cr
+Date: \tab 2016-04-04\cr
 License: \tab GPL-2\cr
 }
 
