@@ -20,7 +20,7 @@ function(x, ..., trial_index = 1){
     if(object[[4]] != 'Tobii' & object[[4]] != 'Eyelink'){
       plot(object[[9]][[i]], typ = 'l', xlab = 'Time (msec)', ylab = 'Speed (deg/s)', las = 1, xaxt = 'n')
       axis(1, at = seq(0, length(object[[9]][[i]]), length.out = 6), labels = round(seq(0, length(object[[9]][[i]]) * (1000 / object[[10]]), length.out = 6)))
-      if(object[[4]] == 'Mould.all'){
+      if(object[[4]] == 'Mould.all' | object[[4]] == 'Mould.allDur'){
         segments(0, object[[7]], length(object[[9]][[i]]), object[[7]], col = 2, lwd= 2)
       } else {
         segments(0, object[[7]][[i]], length(object[[9]][[i]]), object[[7]][[i]], col = 2, lwd= 2)
