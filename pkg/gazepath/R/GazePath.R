@@ -214,7 +214,7 @@ function(data, x1, y1, x2 = NULL, y2 = NULL, d1, d2 = NULL, trial, height_px, he
       ## Boundary check
       X[[i]] <- Boundary(X[[i]], (res_x - width_px[i]) / 2, res_x - (res_x - width_px[i]) / 2)
       Y[[i]] <- Boundary(Y[[i]], (res_y - height_px[i]) / 2, res_y - (res_y - height_px[i]) / 2)
-      ## make sure there is at least 1 second of data avaible
+      ## make sure there is at least 1 second of data available
       if(length(which(!is.na(X[[i]]))) > samplerate & length(which(!is.na(Y[[i]]))) > samplerate & length(which(!is.na(D[[i]]))) > samplerate){
         ## Use the interpolation function
         interpol <- Interpolate(X[[i]], Y[[i]], D[[i]], height_mm[i], width_mm[i], height_px[i], width_px[i], res_x = res_x, res_y = res_y, Hz = samplerate, in_thres = in_thres, thres_dur = thres_dur)
