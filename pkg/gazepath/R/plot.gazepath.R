@@ -2,7 +2,7 @@ plot.gazepath <-
 function(x, ..., trial_index = 1){
   i <- trial_index
   object <- x
-  if(dim(object[[16]][[i]])[1] == 0){
+  if(dim(object[[16]][[i]])[2] == 4){
     warning('There is not enough data to identify fixations and saccades in this trial')
   } else {
     layout(matrix(c(1, 1:3), 2, 2))
