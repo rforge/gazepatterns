@@ -1,7 +1,7 @@
 Mould_vel <-
 function(speed, Hz, plot = F){
   lmax <- speed[lomax(speed)]
-  if(length(lmax < 10)){
+  if(length(lmax) < 10){
     return(NA)
     warning('There are no enough data points to estimate a velocity threshold')
   } else {
