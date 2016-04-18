@@ -41,6 +41,14 @@ Interpolate <- function(X, Y, D, height_mm, width_mm, height_px, width_px, res_x
     classification[is.na(classification)] <- 'missing'
     CL <- rle(classification)
     
+    ## Set saccade < 10 ms to fixations
+    ind <- cumsum(CL$lengths)[which(CL$values == 'saccade' & CL$lengths < (10 * Hz/1000))]
+    len <- CL$lengths[which(CL$values == 'saccade' & CL$lengths < (10 * Hz/1000))] - 1
+    for(i in 1:length(ind)){
+      classification[(ind-len)[i]:ind[i]] <- 'fixation'
+    }
+    CL <- rle(classification)
+    
     index <- rep.int(1:length(CL$value), CL$lengths)
     POG <- sapply(unique(index[!is.na(index)]), function(i) mean(dist(cbind(dat_x[index == i], dat_y[index == i])), na.rm = T))
     POG[is.na(POG)] <- 0
@@ -57,11 +65,11 @@ Interpolate <- function(X, Y, D, height_mm, width_mm, height_px, width_px, res_x
     clas <- classification[[1]]
     
     ## Remove short fixations & saccades
-    for(i in which(CL$value == 'saccade' & CL$length < (Hz / 1000 * 10))){
-      clas[((cumsum(CL$length) - CL$length) + 1)[i] : cumsum(CL$length)[i]] <- 'fixation' 
-    }
+    #for(i in which(CL$value == 'saccade' & CL$length < (Hz / 1000 * 10))){
+    #  clas[((cumsum(CL$length) - CL$length) + 1)[i] : cumsum(CL$length)[i]] <- 'fixation' 
+    #}
     
-    CL <- rle(clas)
+    #CL <- rle(clas)
     ## Remove short fixations
     for(i in which(CL$value == 'fixation' & CL$length < (Hz / 1000 * thres_dur))){
       clas[((cumsum(CL$length) - CL$length) + 1)[i] : cumsum(CL$length)[i]] <- 'saccade' 
