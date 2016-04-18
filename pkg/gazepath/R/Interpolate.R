@@ -57,14 +57,15 @@ Interpolate <- function(X, Y, D, height_mm, width_mm, height_px, width_px, res_x
     clas <- classification[[1]]
     
     ## Set saccade < 10 ms to fixations
-    ind <- cumsum(CL$lengths)[which(CL$values == 'saccade' & CL$lengths < (10 * Hz/1000))]
-    len <- CL$lengths[which(CL$values == 'saccade' & CL$lengths < (10 * Hz/1000))] - 1
-    if(length(ind) > 0){
-      for(i in 1:length(ind)){
-        clas[(ind-len)[i]:ind[i]] <- 'fixation'
-      }
-    }
-    CL <- rle(clas)
+    #ind <- cumsum(CL$lengths)[which(CL$values == 'saccade' & CL$lengths < (10 * Hz/1000))]
+    #len <- CL$lengths[which(CL$values == 'saccade' & CL$lengths < (10 * Hz/1000))] - 1
+    #if(length(ind) > 0){
+    #  for(i in 1:length(ind)){
+    #    clas[(ind-len)[i]:ind[i]] <- 'fixation'
+    #  }
+    #}
+    #CL <- rle(clas)
+    
     ## Remove short fixations & saccades
     #for(i in which(CL$value == 'saccade' & CL$length < (Hz / 1000 * 10))){
     #  clas[((cumsum(CL$length) - CL$length) + 1)[i] : cumsum(CL$length)[i]] <- 'fixation' 
