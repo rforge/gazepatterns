@@ -50,33 +50,45 @@ Interpolate <- function(X, Y, D, height_mm, width_mm, height_px, width_px, res_x
     d <- data.frame(CL$value, CL$length, c(1, cumsum(CL$length)[-length(CL$length)] + 1), cumsum(CL$length), POG, mean_x, mean_y)
     names(d)[1:4] <- c('index', 'dur', 'start', 'end')
     
-    ## Combine fixations
-    classification <- comhull(d, classification, dat_x, dat_y, in_thres, Hz)
-    
-    CL <- rle(classification[[1]])
-    clas <- classification[[1]]
-    
-    ## Set saccade < 10 ms to fixations
-    #ind <- cumsum(CL$lengths)[which(CL$values == 'saccade' & CL$lengths < (10 * Hz/1000))]
-    #len <- CL$lengths[which(CL$values == 'saccade' & CL$lengths < (10 * Hz/1000))] - 1
-    #if(length(ind) > 0){
-    #  for(i in 1:length(ind)){
-    #    clas[(ind-len)[i]:ind[i]] <- 'fixation'
-    #  }
-    #}
-    #CL <- rle(clas)
-    
-    ## Remove short fixations & saccades
-    #for(i in which(CL$value == 'saccade' & CL$length < (Hz / 1000 * 10))){
-    #  clas[((cumsum(CL$length) - CL$length) + 1)[i] : cumsum(CL$length)[i]] <- 'fixation' 
-    #}
-    
-    #CL <- rle(clas)
-    ## Remove short fixations
-    for(i in which(CL$value == 'fixation' & CL$length < (Hz / 1000 * thres_dur))){
-      clas[((cumsum(CL$length) - CL$length) + 1)[i] : cumsum(CL$length)[i]] <- 'saccade' 
+    ## Combine fixations 
+    dimd_new <- dim(d)[1] + 1
+    while(dimd_new != dim(d)[1]){
+      dimd_new <- dim(d)[1]
+      ## Combine fixations
+      classif <- comhull(d, classification, dat_x, dat_y, in_thres, Hz)
+      
+      CL <- rle(classif[[1]])
+      classification <- classif[[1]]
+      index <- rep.int(1:length(CL$value), CL$lengths)
+      dat_x <- classif[[2]]
+      dat_y <- classif[[3]]
+      POG <- sapply(unique(index[!is.na(index)]), function(i) mean(dist(cbind(dat_x[index == i], dat_y[index == i])), na.rm = T))
+      POG[is.na(POG)] <- 0
+      mean_x <- as.vector(by(dat_x, index, function(i) mean(i, na.rm = T)))
+      mean_y <- as.vector(by(dat_y, index, function(i) mean(i, na.rm = T)))
+      
+      d <- data.frame(CL$value, CL$length, c(1, cumsum(CL$length)[-length(CL$length)] + 1), cumsum(CL$length), POG, mean_x, mean_y)
+      names(d)[1:4] <- c('index', 'dur', 'start', 'end')
     }
     
+    # Remove short fixations and check for combinations again
+    for(i in which(CL$value == 'fixation' & CL$length < (Hz / 1000 * thres_dur))){
+      classification[((cumsum(CL$length) - CL$length) + 1)[i] : cumsum(CL$length)[i]] <- 'saccade' 
+    }
+    
+    CL <- rle(classification)
+    index <- rep.int(1:length(CL$value), CL$lengths)
+    POG <- sapply(unique(index[!is.na(index)]), function(i) mean(dist(cbind(dat_x[index == i], dat_y[index == i])), na.rm = T))
+    POG[is.na(POG)] <- 0
+    mean_x <- as.vector(by(dat_x, index, function(i) mean(i, na.rm = T)))
+    mean_y <- as.vector(by(dat_y, index, function(i) mean(i, na.rm = T)))
+    
+    d <- data.frame(CL$value, CL$length, c(1, cumsum(CL$length)[-length(CL$length)] + 1), cumsum(CL$length), POG, mean_x, mean_y)
+    names(d)[1:4] <- c('index', 'dur', 'start', 'end')
+    
+    classification <- comhull(d, classification, dat_x, dat_y, in_thres, Hz)
+    
+    clas <- classification[[1]]
     CL <- rle(clas)
     dat_x <- classification[[2]]
     dat_y <- classification[[3]]
