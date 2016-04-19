@@ -53,6 +53,14 @@ function(data, x1, y1, x2 = NULL, y2 = NULL, d1, d2 = NULL, trial, height_px, he
     Y <- by(data[,y1], data[,trial], data.frame)
   }
   
+  ## Determine robustness and precision
+  Rob_x <- sapply(1:length(X), function(i) robust(X[[i]], samplerate))
+  Rob_y <- sapply(1:length(X), function(i) robust(Y[[i]], samplerate))
+  Robustness <- (Rob_x + Rob_y) / 2
+  Pre_x <- sapply(1:length(X), function(i) precision(X[[i]], samplerate))
+  Pre_y <- sapply(1:length(X), function(i) precision(Y[[i]], samplerate))
+  Precision <- (Pre_x + Pre_y) / 2
+  
   ## Convert single heigths and widths into vectors
   if(length(height_px) == 1) height_px <- rep(height_px, length(unique(data[,trial])))
   if(length(height_mm) == 1) height_mm <- rep(height_mm, length(unique(data[,trial])))
@@ -247,14 +255,6 @@ function(data, x1, y1, x2 = NULL, y2 = NULL, d1, d2 = NULL, trial, height_px, he
   for(i in 1:length(X)){
     sim[[i]] <- simplify(final[[i]], X[[i]], Y[[i]], samplerate, D[[i]], width_px[i], width_mm[i], extra[[i]], extra_var)
   }
-  
-  ## Determine robustness and precision
-  Rob_x <- sapply(1:length(X), function(i) robust(X[[i]], samplerate))
-  Rob_y <- sapply(1:length(X), function(i) robust(Y[[i]], samplerate))
-  Robustness <- (Rob_x + Rob_y) / 2
-  Pre_x <- sapply(1:length(X), function(i) precision(X[[i]], samplerate))
-  Pre_y <- sapply(1:length(X), function(i) precision(Y[[i]], samplerate))
-  Precision <- (Pre_x + Pre_y) / 2
   
   output <- list(final, X, Y, method, Robustness, Precision, thres_vel, thres_dur, s, samplerate, D, height_px, height_mm, width_px, width_mm, sim)
   names(output) <- c('classifications', 'x-coor', 'y-coor', 'method', 'robustness',
