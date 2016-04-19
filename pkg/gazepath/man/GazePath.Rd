@@ -20,6 +20,8 @@ thres_dur = 100, min_dist = 250, in_thres = 150)
 complete_only = FALSE, fixations_only = FALSE)
 \method{plot}{gazepath}(x, ..., trial_index = 1)
 \method{print}{gazepath}(x, ...)
+\method{head}{gazepath}(x, ...)
+\method{tail}{gazepath}(x, ...)
 
 }
 
@@ -108,7 +110,7 @@ The durations threshold in msec used by the gazepath method to interpolate.
   Object of class 'gazepath' can be used in the plot, summary and print function
   }
   \item{x}{
-  Object of class 'gazepath' can be used in the plot, summary and print function
+  Object of class 'gazepath' can be used in the plot, summary, head, tail and print function
   }
   \item{trial_index}{
   Argument of the plot function, refering to the trial to be plotted
