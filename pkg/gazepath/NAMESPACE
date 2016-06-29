@@ -7,4 +7,8 @@ S3method(print, gazepath)
 S3method(head, gazepath)
 S3method(tail, gazepath)
 
-import(SDMTools, zoo, scales, jpeg, shiny)
+import(SDMTools, zoo, scales, jpeg, shiny, utils)
+
+importFrom("grDevices", "chull")
+importFrom("graphics", "axis", "hist", "layout", "legend", "lines", "mtext", "plot", "points", "polygon", "rect", "segments")
+importFrom("stats", "dist", "loess", "median", "predict")
