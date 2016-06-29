@@ -2,7 +2,7 @@
 \alias{gazepat-package}
 \docType{package}
 \title{
-Transforms Eye-Tracking Data into Fixations and Saccades
+Parse Eye-Tracking Data into Fixations
 }
 \description{
 Eye-tracking data must be transformed into fixations and saccades before it can be analyzed. This package provides a non-parametric speed-based approach to do this on a trial basis. The method is especially useful when there are large differences in data quality, as the thresholds are adjusted accordingly. The same pre-processing procedure can be applied to all participants, while accounting for individual differences in data quality.
@@ -12,7 +12,7 @@ Eye-tracking data must be transformed into fixations and saccades before it can 
 Package: \tab gazepath\cr
 Type: \tab Package\cr
 Version: \tab 1.1\cr
-Date: \tab 2016-04-04\cr
+Date: \tab 2016-06-06\cr
 License: \tab GPL-2\cr
 }
 

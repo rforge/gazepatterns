@@ -3,6 +3,8 @@
 \alias{summary.gazepath}
 \alias{plot.gazepath}
 \alias{print.gazepath}
+\alias{head.gazepath}
+\alias{tail.gazepath}
 \title{
 Transform Raw Eye-Tracking Data into Fixations and Saccades
 }
