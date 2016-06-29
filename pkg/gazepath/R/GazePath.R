@@ -97,8 +97,9 @@ function(data, x1, y1, x2 = NULL, y2 = NULL, d1, d2 = NULL, trial, height_px, he
       ## Boundary check
       X[[i]] <- Boundary(X[[i]], (res_x - width_px[i]) / 2, res_x - (res_x - width_px[i]) / 2)
       Y[[i]] <- Boundary(Y[[i]], (res_y - height_px[i]) / 2, res_y - (res_y - height_px[i]) / 2)
-      ## make sure there is at least 1 second of data avaible
-      if(length(which(!is.na(X[[i]]))) > samplerate & length(which(!is.na(Y[[i]]))) > samplerate & length(which(!is.na(D[[i]]))) > samplerate){
+      ## make sure there is at least data avaible
+      samp <- ifelse(samplerate < 150, samplerate, 150)
+      if(length(which(!is.na(X[[i]]))) > samp & length(which(!is.na(Y[[i]]))) > samp & length(which(!is.na(D[[i]]))) > samp){
         ## Calculate speed
         s[[i]] <- Speed_Deg(X[[i]], Y[[i]], D[[i]], height_mm[i], width_mm[i], height_px[i], width_px[i], samplerate)
         ## Omit velocities over 1000 deg/s
