@@ -1,6 +1,5 @@
 
-export(gazepath)
-export(GUI)
+export(gazepath, GUI)
 
 S3method(plot, gazepath)
 S3method(summary, gazepath)
