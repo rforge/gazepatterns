@@ -11,7 +11,7 @@ GUI()
 }
 
 \arguments{
-
+no arguments
 }
 \details{
 no details
@@ -25,10 +25,10 @@ Mould, M. S., Foster, D. H., Amano, K., & Oakley, J. P. (2012). A simple nonpara
 \author{
 Daan van Renswoude & Ingmar Visser
 }
-
 \examples{
-#### Example
+\dontrun{
 GUI()
+} 
 }
 \keyword{ fixations }
 \keyword{ gazepath }
