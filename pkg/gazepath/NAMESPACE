@@ -8,8 +8,6 @@ S3method(print, gazepath)
 S3method(head, gazepath)
 S3method(tail, gazepath)
 
-import(shiny)
-
 importFrom("grDevices", "chull")
 importFrom("graphics", "axis", "hist", "layout", "legend", "lines", "mtext", "plot", "points", "polygon", "rect", "segments")
 importFrom("stats", "dist", "loess", "median", "predict")
@@ -18,3 +16,6 @@ importFrom("zoo", "na.approx")
 importFrom("scales", "alpha")
 importFrom("SDMTools", "pnt.in.poly")
 importFrom("jpeg", "readJPEG", "writeJPEG")
+
+import(shiny)
+
