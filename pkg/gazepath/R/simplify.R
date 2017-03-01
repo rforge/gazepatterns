@@ -14,7 +14,7 @@ function(classification, x, y, Hz, D, width_px, width_mm, extra, extra_var){
         mean_x <- c(mean_x, mean(x[simple[i,3] : simple[i,4]]))
         mean_y <- c(mean_y, mean(y[simple[i,3] : simple[i,4]]))
         m <- diag(as.matrix(dist(cbind(x[simple[i,3] : simple[i,4]]), y[simple[i,3] : simple[i,4]]))[,-1])
-        RMS <- c(RMS, sqrt((atan((m / 2) / mean(D, na.rm = T)) * (180 / pi) * (width_mm / width_px) * 2)**2)
+        RMS <- c(RMS, sqrt((atan((m / 2) / mean(D, na.rm = T)) * (180 / pi) * (width_mm / width_px) * 2)**2))
         POGvar <- c(POGvar, mean(as.matrix(dist(cbind(c(mean_x[length(mean_x)], x[simple[i,3] : simple[i,4]]), c(mean_y[length(mean_y)], y[simple[i,3] : simple[i,4]]))))[-1,1]))
       }
       ## Calculate saccade amplitude and transform POGvar from pixels to degrees of visual angle and to sd
