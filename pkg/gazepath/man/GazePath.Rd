@@ -77,7 +77,7 @@ The vertical resolution of the monitor in pixels
 The samplerate, e.g., 60 for a 60 Hz scanner, 500 for a 500 Hz scanner
 }
   \item{method}{
-Must be one of the following methods: Mould, MouldDur, Mould.all, Mould.allDur, gazepath, Tobii, Eyelink.
+Must be one of the following methods: Mould, MouldDur, Mould.all, Mould.allDur, gazepath, dispersion, velocity.
 
 Mould estimates velocity threshold per trial and duration thresholds per person (recommended for high, > 250 Hz, samplerate and high quality data)
 
@@ -89,18 +89,18 @@ Mould.allDur estimates one velocity threshold for all trials and uses the durati
 
 gazepath estimates velocity thresholds per person and uses the duration thresholds specified under 'thres_dur'. Furthermore, extra preprocessing steps are performed, such as, last point interpolation of missing data sequences of length in_thres and combining succesive fixations that overlap in space.
 
-Tobii derives fixations and saccades based on the algorithm described in the ClearView 2.7 manual
+dispersion derives fixations and saccades based on a dispersion threshold of .9 degrees of visual angle
 
-Eyelink classifies saccades as sequences of samples (> 4ms) that have a velocity over 35 deg/s, acceleration over 8000 deg/s^2 and defliction over 0.1 deg of visual angle. Fixations are the sequences of samples that are not saccades and pass the duration threshold of 100 ms
+velocity classifies saccades as sequences of samples (> 4ms) that have a velocity over 35 deg/s. Fixations are the sequences of samples that are not saccades and pass the duration threshold of 100 ms
 }
   \item{posthoc}{
 TRUE or FALSE (default). When TRUE successive fixations close in space are merged.
 }
   \item{thres_vel}{
-The desired velocity threshold, will only be used for method 'Eyelink'
+The desired velocity threshold, will only be used for method 'velocity'
 }
   \item{thres_dur}{
-The desired duration threshold, will be used for methods 'gazepath', 'Eyelink' and 'MouldDur' 
+The desired duration threshold, will be used for methods 'gazepath', 'velocity' and 'MouldDur' 
 }
   \item{min_dist}{
 The minimal distance from the screen in mm, samples below this distance are considered unreliable and are omitted from further analysis.
@@ -144,9 +144,9 @@ gazepath returns a list of 16 items. names(list) and be used to extract useful i
 
 \item{6. Presicion}{Vector containing the mean differences in pixels between raw data points and a smoothed version of the data. Higher values indicate poorer data quality}
 
-\item{7. Velocity thresholds}{Vector with the velocity thresholds of each trial (methods: gazepath, Mould, MouldDur) in deg/s, or a single value when a single velocity threshold is used(methods: eyelink, Mould.all, Tobii)}
+\item{7. Velocity thresholds}{Vector with the velocity thresholds of each trial (methods: gazepath, Mould, MouldDur) in deg/s, or a single value when a single velocity threshold is used(methods: velocity, Mould.all, dispersion)}
 
-\item{8. Duration threshold}{Vector with the duration thresholds of each trial (method: Mould) in milliseconds, or a single value when a single duration threshold is used(methods: gazepath, MouldDur, eyelink, Mould.all, Tobii)}
+\item{8. Duration threshold}{Vector with the duration thresholds of each trial (method: Mould) in milliseconds, or a single value when a single duration threshold is used(methods: gazepath, MouldDur, Mould.all, velocity and dispersion)}
 
 \item{9. Speed}{List of length number of trials with vectors containing the speed at each sample}
 
