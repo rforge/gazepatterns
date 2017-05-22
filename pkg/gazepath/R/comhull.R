@@ -7,7 +7,7 @@ comhull <- function(d, classification, dat_x, dat_y, in_thres, Hz = Hz){
     fix2 <- which(d$index == 'fixation')[count]
     cvhull <- chull(cbind(dat_x, dat_y)[d[fix,3] : d[fix,4],])
     POLY_FIX <- cbind(dat_x[d[fix,3] : d[fix,4]][cvhull], dat_y[d[fix,3] : d[fix,4]][cvhull])
-    PNT <- sum(pnt.in.poly(cbind(dat_x, dat_y)[d[fix2,3] : d[fix2,4],], POLY_FIX)[,3])
+    PNT <- sum(pnt.in.poly(t(apply(cbind(dat_x, dat_y)[d[fix2,3] : d[fix2,4],], 2, median)), POLY_FIX)[,3])
     ## If fixations have the same location and are within interpolation limit combine them...
     if(PNT > 0 & (d[fix,3] - d[fix2,4]) < in_thres * (Hz / 1000)){
       classification[d[fix2,3] : d[fix,4]] <- 'fixation'
