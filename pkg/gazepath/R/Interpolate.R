@@ -55,7 +55,7 @@ Interpolate <- function(X, Y, D, height_mm, width_mm, height_px, width_px, res_x
     while(dimd_new != dim(d)[1]){
       dimd_new <- dim(d)[1]
       ## Combine fixations
-      classif <- comhull(d, classification, dat_x, dat_y, in_thres, Hz, M = sqrt(M)/20, mean(dat_d, na.rm = T), res_x = res_x, width_mm = width_mm)
+      classif <- comhull(d, classification, dat_x, dat_y, in_thres, Hz, M = sqrt(M)/10, mean(dat_d, na.rm = T), res_x = res_x, width_mm = width_mm)
       
       CL <- rle(classif[[1]])
       classification <- classif[[1]]
